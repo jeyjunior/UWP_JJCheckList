@@ -5,13 +5,13 @@
     xmlns:local="using:UWP_JJCheckList"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    MinHeight="450" MinWidth="450"
+    mc:Ignorable="d" x:Name="pMainPage"
+    MinHeight="450" MinWidth="450" Loaded="MainPage_Loaded"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid 
         x:Name="gridPrincipal"
-        Background="#1E1E1E" 
+        Background="#202020" 
         Margin="0" 
         Padding="0">
         <Grid.RowDefinitions>
@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
 
         <!-- Título -->
-        <Grid Grid.Row="0" Margin="32,0,32,0" Padding="0" Background="#1E1E1E" x:Name="gridTitulo">
+        <Grid Grid.Row="0" Margin="32,0,32,0" Padding="0" Background="#202020" x:Name="gridTitulo">
             <TextBox 
                 x:Name="txtTitulo" 
                 Text="Texto exemplo 2" 
@@ -51,9 +51,9 @@
         <Grid Grid.Row="1" Margin="0" Padding="0" Background="#292929" x:Name="gridConteudo"></Grid>
         
         <!-- Complementar -->
-        <Grid Grid.Row="2" Margin="0" Padding="0" Background="#1E1E1E" x:Name="gridComplementar"></Grid>
+        <Grid Grid.Row="2" Margin="0" Padding="0" Background="#202020" x:Name="gridComplementar"></Grid>
 
         <!-- Config -->
-        <Grid Grid.Row="3" Margin="0" Padding="0" Background="#1E1E1E" x:Name="gridConfig"></Grid>
+        <Grid Grid.Row="3" Margin="0" Padding="0" Background="#202020" x:Name="gridConfig"></Grid>
     </Grid>
 </Page>

@@ -1,12 +1,20 @@
-﻿using System;
+﻿using SimpleInjector;
+using SQLite;
+using SQLite.Net.Platform.WinRT;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.ServiceModel.Channels;
+using UWP_JJCheckList.Models.Entidades;
+using UWP_JJCheckList.Models.Interfaces;
+using UWP_JJCheckList.Models.Repositorios;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -17,11 +25,12 @@ using Windows.UI.Xaml.Navigation;
 
 namespace UWP_JJCheckList
 {
-    /// <summary>
-    ///Fornece o comportamento específico do aplicativo para complementar a classe Application padrão.
-    /// </summary>
     sealed partial class App : Application
     {
+        public static Container Container { get; private set; }
+        public static SQLiteConnection DBConnection { get; private set; }
+
+
         /// <summary>
         /// Inicializa o objeto singleton do aplicativo. Essa é a primeira linha do código criado
         /// executado e, por isso, é o equivalente lógico de main() ou WinMain().
@@ -29,6 +38,11 @@ namespace UWP_JJCheckList
         public App()
         {
             this.InitializeComponent();
+
+            InicializarRepositorios();
+            InicializarBaseDados();
+            InicializarParametros();
+
             this.Suspending += OnSuspending;
         }
 
@@ -95,6 +109,65 @@ namespace UWP_JJCheckList
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Salvar o estado do aplicativo e parar qualquer atividade em segundo plano
             deferral.Complete();
+        }
+    
+        private void InicializarBaseDados()
+        {
+            try
+            {
+                string dbPath = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "DBCheckList.db");
+                DBConnection = new SQLiteConnection(dbPath);
+
+                //Tabelas
+                DBConnection.CreateTable<CLParametro>();
+            }
+            catch (Exception ex)
+            {
+                var msg = new ContentDialog
+                {
+                    Title = "Erro",
+                    Content = ex.Message,
+                    CloseButtonText = "OK"
+                };
+
+                msg.ShowAsync();
+            }
+        }
+
+        private void InicializarParametros()
+        {
+            try
+            {
+                string parametroTeste = Enum.GetName(typeof(Parametros), Parametros.TituloPrincipal);
+                var consultaTeste = DBConnection.Table<CLParametro>().Where(i => i.Parametro == parametroTeste).FirstOrDefault() ;
+
+                if (consultaTeste != null)
+                    return;
+
+                // Paramêtros iniciais
+                var pTituloPrincipal = new CLParametro
+                {
+                    Grupo = Enum.GetName(typeof(GrupoParametros), GrupoParametros.MainPage),
+                    Parametro = Enum.GetName(typeof(Parametros), Parametros.TituloPrincipal),
+                    Valor = "Título",
+                };
+
+                DBConnection.Insert(pTituloPrincipal);
+            }
+            catch (Exception ex)
+            {
+                var msg = new ContentDialog { Title = "Erro", Content = ex.Message, CloseButtonText = "OK" };
+                msg.ShowAsync();
+            }
+        }
+
+        private void InicializarRepositorios()
+        {
+            Container = new Container();
+
+            Container.Register<ICLParametroRepositorio, CLParametroRepositorio>();
+
+            Container.Verify();
         }
     }
 }

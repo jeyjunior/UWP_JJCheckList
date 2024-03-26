@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using UWP_JJCheckList.Models.Entidades;
+using UWP_JJCheckList.Models.Interfaces;
+using UWP_JJCheckList.Models.Repositorios;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -17,24 +20,38 @@ using Windows.UI.Xaml.Navigation;
 
 namespace UWP_JJCheckList
 {
-    /// <summary>
-    /// Uma página vazia que pode ser usada isoladamente ou navegada dentro de um Quadro.
-    /// </summary>
     public sealed partial class MainPage : Page
     {
+        #region Interfaces
+        private readonly ICLParametroRepositorio cLParametroRepositorio;
+        #endregion
+        #region Propriedades
+        private CLParametro pTituloPrincipal;
+        #endregion
+
         #region Construtor
         public MainPage()
         {
             this.InitializeComponent();
+
+            cLParametroRepositorio = App.Container.GetInstance<ICLParametroRepositorio>();  
         }
         #endregion
 
         #region Eventos
+        // Main
+        private void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            CarregarParametros();
+        }
+
         // Título
         private void txtTitulo_LostFocus(object sender, RoutedEventArgs e)
         {
             this.txtTitulo.Visibility = Visibility.Collapsed;
             this.txbTitulo.Visibility = Visibility.Visible;
+
+            SalvarTitulo();
         }
         private void txbTitulo_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
@@ -43,8 +60,67 @@ namespace UWP_JJCheckList
         }
         private void txtTitulo_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.txbTitulo.Text = this.txtTitulo.Text.Trim();
+            this.txbTitulo.Text = this.txtTitulo.Text;
+            pTituloPrincipal.Valor = this.txtTitulo.Text;
         }
         #endregion
+
+        #region Métodos
+        private void CarregarParametros()
+        {
+            try
+            {
+                pTituloPrincipal = new CLParametro();
+
+
+                pTituloPrincipal = cLParametroRepositorio.Obter(Parametros.TituloPrincipal);
+
+                if( pTituloPrincipal != null )
+                {
+                    if(!pTituloPrincipal.IsValid)
+                    {
+                        var msg = new ContentDialog { Title = "Erro", Content = pTituloPrincipal.ValidationResult.ErrorMessage, CloseButtonText = "OK" };
+                        msg.ShowAsync();
+                        return;
+                    }
+
+                    this.txtTitulo.Text = pTituloPrincipal.Valor.ToString();
+                    this.txbTitulo.Text = this.txtTitulo.Text;
+                }
+                else
+                {
+                    pTituloPrincipal = new CLParametro();
+                }
+            }
+            catch (Exception ex)
+            {
+                var msg = new ContentDialog { Title = "Erro", Content = ex.Message, CloseButtonText = "OK" };
+                msg.ShowAsync();
+            }
+        }
+        private void SalvarTitulo()
+        {
+            try
+            {
+                pTituloPrincipal.ValidationResult = null;
+                pTituloPrincipal.Valor = this.txtTitulo.Text.Trim();
+                
+                cLParametroRepositorio.Atualizar(pTituloPrincipal);
+
+                if(!pTituloPrincipal.IsValid)
+                {
+                    var msg = new ContentDialog { Title = "Erro", Content = pTituloPrincipal.ValidationResult.ErrorMessage, CloseButtonText = "OK" };
+                    msg.ShowAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                var msg = new ContentDialog { Title = "Erro", Content = ex.Message, CloseButtonText = "OK" };
+                msg.ShowAsync();
+            }
+        }
+        #endregion
+
+
     }
 }
