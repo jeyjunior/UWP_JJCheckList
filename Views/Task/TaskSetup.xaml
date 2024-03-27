@@ -1,0 +1,30 @@
+﻿<ContentDialog
+    x:Class="UWP_JJCheckList.Assets.TaskSetup"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWP_JJCheckList.Assets"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Adicionar Tarefa"
+    PrimaryButtonText="Adicionar"
+    SecondaryButtonText="Cancelar"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Titulo da tarefa -->
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="22"/>
+                <RowDefinition Height="48"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" x:Name="txbTitulo" Text="Tarefa" Foreground="#999999"/>
+            <TextBox Grid.Row="1" x:Name="txtTarefa" Text="" TextWrapping="Wrap" MaxLength="120"></TextBox>
+        </Grid>
+    </Grid>
+</ContentDialog>

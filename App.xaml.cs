@@ -111,6 +111,14 @@ namespace UWP_JJCheckList
             deferral.Complete();
         }
     
+        private void InicializarRepositorios()
+        {
+            Container = new Container();
+
+            Container.Register<ICLParametroRepositorio, CLParametroRepositorio>();
+
+            Container.Verify();
+        }
         private void InicializarBaseDados()
         {
             try
@@ -133,7 +141,6 @@ namespace UWP_JJCheckList
                 msg.ShowAsync();
             }
         }
-
         private void InicializarParametros()
         {
             try
@@ -151,23 +158,22 @@ namespace UWP_JJCheckList
                     Parametro = Enum.GetName(typeof(Parametros), Parametros.TituloPrincipal),
                     Valor = "Título",
                 };
+                var pTituloPrincipalFontSize = new CLParametro
+                {
+                    Grupo = Enum.GetName(typeof(GrupoParametros), GrupoParametros.MainPage),
+                    Parametro = Enum.GetName(typeof(Parametros), Parametros.TituloPrincipalFontSize),
+                    Valor = "30",
+                };
+
 
                 DBConnection.Insert(pTituloPrincipal);
+                DBConnection.Insert(pTituloPrincipalFontSize);
             }
             catch (Exception ex)
             {
                 var msg = new ContentDialog { Title = "Erro", Content = ex.Message, CloseButtonText = "OK" };
                 msg.ShowAsync();
             }
-        }
-
-        private void InicializarRepositorios()
-        {
-            Container = new Container();
-
-            Container.Register<ICLParametroRepositorio, CLParametroRepositorio>();
-
-            Container.Verify();
         }
     }
 }

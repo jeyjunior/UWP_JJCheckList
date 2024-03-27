@@ -1,0 +1,64 @@
+﻿<UserControl
+    x:Class="UWP_JJCheckList.Views.Task.TaskContent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWP_JJCheckList.Views.Task"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Loaded="UserControl_Loaded"
+    d:DesignHeight="260"
+    d:DesignWidth="400">
+
+    <Grid x:Name="gridPrincipal" Margin="0"  Padding="0" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="200"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Task -->
+        <Grid x:Name="gridTask" Margin="0" Padding="0" Background="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="36"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="36"/>
+                <ColumnDefinition Width="36"/>
+                <ColumnDefinition Width="36"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" x:Name="btnBlocoNotas" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="btnBlocoNotas_Click">
+                <Image/>
+            </Button>
+
+            <CheckBox 
+                Grid.Column="1" 
+                Margin="6,0,6,0"
+                x:Name="chkTarefa" 
+                Content="Essa" 
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"/>
+
+            <Button Grid.Column="2" x:Name="btnEditar" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Image/>
+            </Button>
+
+            <Button Grid.Column="3" x:Name="btnLimpar" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Image/>
+            </Button>
+
+            <Button Grid.Column="4" x:Name="btnDeletar" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Image/>
+            </Button>
+        </Grid>
+        
+        <!-- Notepad -->
+        <TextBox Grid.Row="1"
+            AcceptsReturn="True"        
+            TextWrapping="Wrap"
+            MaxLength="0"
+            Text=""
+            Background="Transparent"
+            />
+
+    </Grid>
+</UserControl>

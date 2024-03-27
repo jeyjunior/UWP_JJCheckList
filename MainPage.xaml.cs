@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using UWP_JJCheckList.Assets;
 using UWP_JJCheckList.Models.Entidades;
 using UWP_JJCheckList.Models.Interfaces;
 using UWP_JJCheckList.Models.Repositorios;
@@ -27,6 +28,11 @@ namespace UWP_JJCheckList
         #endregion
         #region Propriedades
         private CLParametro pTituloPrincipal;
+        private CLParametro pTituloPrincipalFontSize;
+        #endregion
+
+        #region Views
+        private TaskSetup taskSetup;
         #endregion
 
         #region Construtor
@@ -43,16 +49,12 @@ namespace UWP_JJCheckList
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
             CarregarParametros();
+
+            taskSetup = new TaskSetup();
+            taskSetup.children = this.stpContent.Children;
         }
 
         // Título
-        private void txtTitulo_LostFocus(object sender, RoutedEventArgs e)
-        {
-            this.txtTitulo.Visibility = Visibility.Collapsed;
-            this.txbTitulo.Visibility = Visibility.Visible;
-
-            SalvarTitulo();
-        }
         private void txbTitulo_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             this.txtTitulo.Visibility = Visibility.Visible;
@@ -62,6 +64,34 @@ namespace UWP_JJCheckList
         {
             this.txbTitulo.Text = this.txtTitulo.Text;
             pTituloPrincipal.Valor = this.txtTitulo.Text;
+        }
+        private void txtTitulo_LostFocus(object sender, RoutedEventArgs e)
+        {
+            this.txtTitulo.Visibility = Visibility.Collapsed;
+            this.txbTitulo.Visibility = Visibility.Visible;
+
+            SalvarTitulo();
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            taskSetup.ShowAsync();
+        }
+        private void btnDeletarAll_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void btnLimparAll_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void chkAll_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void chkAll_Unchecked(object sender, RoutedEventArgs e)
+        {
+
         }
         #endregion
 
@@ -74,28 +104,29 @@ namespace UWP_JJCheckList
 
 
                 pTituloPrincipal = cLParametroRepositorio.Obter(Parametros.TituloPrincipal);
+                pTituloPrincipalFontSize = cLParametroRepositorio.Obter(Parametros.TituloPrincipalFontSize);
 
-                if( pTituloPrincipal != null )
+                if (!pTituloPrincipal.IsValid)
                 {
-                    if(!pTituloPrincipal.IsValid)
-                    {
-                        var msg = new ContentDialog { Title = "Erro", Content = pTituloPrincipal.ValidationResult.ErrorMessage, CloseButtonText = "OK" };
-                        msg.ShowAsync();
-                        return;
-                    }
+                    ExibirMensagemErro("Erro", pTituloPrincipal.ValidationResult.ErrorMessage);
+                    return;
+                }
 
-                    this.txtTitulo.Text = pTituloPrincipal.Valor.ToString();
-                    this.txbTitulo.Text = this.txtTitulo.Text;
-                }
-                else
+                this.txtTitulo.Text = pTituloPrincipal.Valor.ToString();
+                this.txbTitulo.Text = this.txtTitulo.Text;
+
+                if (!pTituloPrincipalFontSize.IsValid)
                 {
-                    pTituloPrincipal = new CLParametro();
+                    ExibirMensagemErro("Erro", pTituloPrincipal.ValidationResult.ErrorMessage);
+                    return;
                 }
+
+                this.txtTitulo.FontSize = Convert.ToInt32(pTituloPrincipalFontSize.Valor.Trim());
+                this.txbTitulo.FontSize = this.txtTitulo.FontSize;
             }
             catch (Exception ex)
             {
-                var msg = new ContentDialog { Title = "Erro", Content = ex.Message, CloseButtonText = "OK" };
-                msg.ShowAsync();
+                ExibirMensagemErro("Erro", ex.Message);
             }
         }
         private void SalvarTitulo()
@@ -104,7 +135,6 @@ namespace UWP_JJCheckList
             {
                 pTituloPrincipal.ValidationResult = null;
                 pTituloPrincipal.Valor = this.txtTitulo.Text.Trim();
-                
                 cLParametroRepositorio.Atualizar(pTituloPrincipal);
 
                 if(!pTituloPrincipal.IsValid)
@@ -119,8 +149,12 @@ namespace UWP_JJCheckList
                 msg.ShowAsync();
             }
         }
+        
+        private void ExibirMensagemErro(string titulo, string conteudo)
+        {
+            var msg = new ContentDialog { Title = titulo, Content = conteudo, CloseButtonText = "OK" };
+            msg.ShowAsync();
+        }
         #endregion
-
-
     }
 }

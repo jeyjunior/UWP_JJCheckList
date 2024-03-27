@@ -141,13 +141,21 @@ namespace UWP_JJCheckList.Models.Repositorios
         {
             try
             {
+
                 if (parametro == null)
-                    return null;
+                {
+                    parametro = new CLParametro
+                    {
+                        ValidationResult = new ValidationResult("É necessário informar alguma parâmetro."),
+                    };
+
+                    return parametro;
+                }
 
                 if(parametro.PK_Parametro <= 0 && string.IsNullOrEmpty(parametro.Parametro))
                 {
                     parametro.ValidationResult = new ValidationResult("É necessário inserir algum ID ou Parametro.");
-                    return null;
+                    return parametro;
                 }
 
                 CLParametro cLParametroResultado = null;
@@ -170,13 +178,19 @@ namespace UWP_JJCheckList.Models.Repositorios
                 if(cLParametroResultado == null)
                 {
                     parametro.ValidationResult = new ValidationResult("Nenhum parâmetro encontrado.");
+                    return parametro;
                 }
 
                 return cLParametroResultado;
             }
             catch (Exception ex)
             {
-                return null;
+                parametro = new CLParametro
+                {
+                    ValidationResult = new ValidationResult(ex.Message),
+                };
+
+                return parametro;
             }
         }
 

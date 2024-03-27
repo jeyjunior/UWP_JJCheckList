@@ -1,10 +1,6 @@
-﻿using SQLite;
-using System;
-using System.Collections.Generic;
+﻿using System.Linq;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SQLite;
 
 namespace UWP_JJCheckList.Models.Entidades
 {
@@ -18,12 +14,10 @@ namespace UWP_JJCheckList.Models.Entidades
         public string Parametro { get; set;}
         [NotNull]
         public string Valor { get; set; }
-
         [Ignore]
         public ValidationResult ValidationResult { get; set; }
         [Ignore]
         public bool IsValid => IsValidInternal();
-
         private bool IsValidInternal()
         {
             if (ValidationResult == null)
@@ -37,11 +31,12 @@ namespace UWP_JJCheckList.Models.Entidades
 
     public enum Parametros
     {
-        TituloPrincipal = 0,
+        TituloPrincipal,
+        TituloPrincipalFontSize,
     }
 
     public enum GrupoParametros
     {
-        MainPage = 0,
+        MainPage,
     }
 }
