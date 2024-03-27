@@ -139,9 +139,13 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Images\add_white.png" />
-    <Content Include="Assets\Images\delete_white.png" />
-    <Content Include="Assets\Images\erase_white.png" />
+    <Content Include="Assets\Icons\24x\arrow_white.png" />
+    <Content Include="Assets\Icons\24x\delete_white.png" />
+    <Content Include="Assets\Icons\24x\delete_white_fill.png" />
+    <Content Include="Assets\Icons\24x\edit_white.png" />
+    <Content Include="Assets\Icons\24x\edit_white_fill.png" />
+    <Content Include="Assets\Icons\24x\erase_white.png" />
+    <Content Include="Assets\Icons\24x\erase_white_fill.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

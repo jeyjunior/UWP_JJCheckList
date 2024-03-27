@@ -64,16 +64,18 @@
                 <ColumnDefinition Width="60"/>
             </Grid.ColumnDefinitions>
 
-            <CheckBox 
+
+            <ToggleButton 
                 Grid.Column="0" 
                 x:Name="chkAll"
-                IsTabStop="False"
-                RenderTransformOrigin="0.08,0.5"
-                Margin="20,0,0,0" Width="64"
+                Width="20" Height="20"
+                Margin="20, 0, 0, 0"
+                Padding="0"
+                BorderThickness="2"
                 Checked="chkAll_Checked"
-                Unchecked="chkAll_Unchecked">
-            </CheckBox>
-
+                Unchecked="chkAll_Unchecked" BorderBrush="#FFB9B9B9">
+            </ToggleButton>
+            
             <TextBlock 
                 Grid.Column="1" 
                 x:Name="txbQtd" 
@@ -89,7 +91,7 @@
                 HorizontalAlignment="Stretch"  
                 VerticalAlignment="Stretch"
                 Click="btnLimparAll_Click">
-                <Image Source="/Assets/Images/erase_white.png"/>
+                <Image Source="/Assets/Icons/24x/erase_white_fill.png"/>
             </Button>
 
             <Button 
@@ -99,7 +101,7 @@
                 HorizontalAlignment="Stretch"  
                 VerticalAlignment="Stretch"
                 Click="btnDeletarAll_Click">
-                <Image Source="/Assets/Images/delete_white.png"/>
+                <Image Source="/Assets/Icons/24x/delete_white_fill.png"/>
             </Button>
         </Grid>
 

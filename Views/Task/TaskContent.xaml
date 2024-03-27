@@ -19,36 +19,45 @@
         <!-- Task -->
         <Grid x:Name="gridTask" Margin="0" Padding="0" Background="Transparent">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="36"/>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="36"/>
-                <ColumnDefinition Width="36"/>
-                <ColumnDefinition Width="36"/>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="40"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" x:Name="btnBlocoNotas" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="btnBlocoNotas_Click">
-                <Image/>
+            <Button Grid.Column="0" x:Name="btnBlocoNotas" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="btnBlocoNotas_Click" Margin="0" Padding="0">
+                <Image Source="/Assets/Icons/24x/arrow_white.png"  Width="20" Height="20"/>
             </Button>
 
-            <CheckBox 
+            <ToggleButton 
                 Grid.Column="1" 
-                Margin="6,0,6,0"
-                x:Name="chkTarefa" 
-                Content="Essa" 
+                Content="" 
+                HorizontalAlignment="Center" 
+                Width="18" Height="18"
+                Margin="0" Padding="0"
+                Background="#FFCECECE"/>
+
+            <TextBlock 
+                Grid.Column="2" 
+                Text="" 
+                VerticalAlignment="Center"
                 HorizontalAlignment="Stretch"
-                VerticalAlignment="Center"/>
+                TextWrapping="Wrap"/>
 
-            <Button Grid.Column="2" x:Name="btnEditar" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Image/>
+            <Button Grid.Column="3" x:Name="btnEditar" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Padding="0">
+                <Image Source="/Assets/Icons/24x/edit_white.png" Width="20" Height="20"/>
             </Button>
 
-            <Button Grid.Column="3" x:Name="btnLimpar" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Image/>
+            <Button Grid.Column="4" x:Name="btnLimpar" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Padding="0">
+                <Image Source="/Assets/Icons/24x/erase_white.png"  Width="20" Height="20"/>
             </Button>
 
-            <Button Grid.Column="4" x:Name="btnDeletar" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Image/>
+            <Button Grid.Column="5" x:Name="btnDeletar" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Padding="0">
+                <Image Source="/Assets/Icons/24x/delete_white.png"  Width="20" Height="20"/>
             </Button>
+            
         </Grid>
         
         <!-- Notepad -->
@@ -56,9 +65,9 @@
             AcceptsReturn="True"        
             TextWrapping="Wrap"
             MaxLength="0"
-            Text=""
             Background="Transparent"
-            />
+            BorderBrush="Transparent"
+            Text=""/>
 
     </Grid>
 </UserControl>
