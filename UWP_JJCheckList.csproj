@@ -119,6 +119,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entidades\CLTaskContent.cs" />
     <Compile Include="Views\Task\TaskContent.xaml.cs">
       <DependentUpon>TaskContent.xaml</DependentUpon>
     </Compile>

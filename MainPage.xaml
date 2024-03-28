@@ -52,23 +52,22 @@
         <!-- Complementar -->
         <Grid Grid.Row="1" Margin="20,0,20,0" Padding="0" Background="#202020" x:Name="gridComplementar">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="32"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="32"/>
                 <ColumnDefinition Width="32"/>
             </Grid.ColumnDefinitions>
 
             <TextBlock 
-                Grid.Column="0" 
+                Grid.Column="1" 
                 x:Name="txbQtd" 
                 TextAlignment="Start" 
                 Text="10000/10000" 
-                Margin="20,0,0,0"
+                Margin="10,0,0,0"
                 VerticalAlignment="Center" 
                 HorizontalAlignment="Stretch"/>
 
             <ToggleButton 
-                Grid.Column="1" 
+                Grid.Column="0" 
                 x:Name="chkAll"
                 Width="16" Height="16"
                 Margin="0"
@@ -79,18 +78,6 @@
                 Checked="chkAll_Checked"
                 Unchecked="chkAll_Unchecked" BorderBrush="#FFB9B9B9">
             </ToggleButton>
-
-            <Button 
-                Grid.Column="2" 
-                x:Name="btnLimparAll"
-                Margin="0"
-                Padding="0"
-                Background="Transparent" 
-                HorizontalAlignment="Stretch"  
-                VerticalAlignment="Stretch"
-                Click="btnLimparAll_Click">
-                <Image Source="/Assets/Icons/24x/erase_white_fill.png" Width="16" Height="16"/>
-            </Button>
 
             <Button 
                 Grid.Column="3" 
@@ -111,6 +98,7 @@
             Margin="0" 
             Padding="0" 
             Background="#292929" 
+            SelectionMode="Single"
             x:Name="listViewConteudo">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">

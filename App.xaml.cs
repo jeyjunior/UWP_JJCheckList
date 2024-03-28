@@ -116,6 +116,7 @@ namespace UWP_JJCheckList
             Container = new Container();
 
             Container.Register<ICLParametroRepositorio, CLParametroRepositorio>();
+            Container.Register<ICLTaskContentRepositorio, CLTaskContentRepositorio>();
 
             Container.Verify();
         }
@@ -128,6 +129,7 @@ namespace UWP_JJCheckList
 
                 //Tabelas
                 DBConnection.CreateTable<CLParametro>();
+                DBConnection.CreateTable<CLTaskContent>();
             }
             catch (Exception ex)
             {

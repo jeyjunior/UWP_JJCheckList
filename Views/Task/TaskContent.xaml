@@ -23,17 +23,13 @@
             Background="Transparent">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="36"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="40"/>
             </Grid.ColumnDefinitions>
 
-            <Image 
-                Grid.Row="0"
-                Source="/Assets/Icons/24x/reorder_dots_gray.png"                />
-
             <ToggleButton 
-                Grid.Column="1" 
+                x:Name="tgbTarefa"
+                Grid.Column="0" 
                 Content="" 
                 HorizontalAlignment="Center" 
                 Width="18" Height="18"
@@ -42,11 +38,11 @@
 
             <TextBlock 
                 x:Name="txbTarefa"
-                Grid.Column="2" 
+                Grid.Column="1" 
                 Text="Testestestestestes" 
                 VerticalAlignment="Center"
                 TextAlignment="Start"
-                Margin="0"
+                Margin="12,0,12,0"
                 Padding="5,0,0,0"
                 HorizontalAlignment="Stretch"
                 Visibility="Visible"
@@ -54,11 +50,11 @@
                 DoubleTapped="txbTarefa_DoubleTapped" />
             <TextBox
                 x:Name="txtTarefa"
-                Grid.Column="2" 
+                Grid.Column="1" 
                 Text="adsasdasdas asd asd sa" 
                 VerticalAlignment="Center"
                 TextAlignment="Start"
-                Margin="0"
+                Margin="12,0,12,0"
                 Padding="0"
                 Background="Transparent"
                 BorderBrush="Transparent"
@@ -68,14 +64,15 @@
 
             <Button 
                 Grid.Column="3" 
-                x:Name="btnEditar" 
+                x:Name="btnDeletar" 
                 CornerRadius="6" 
-                Background="#202020" 
+                Background="Transparent" 
                 Width="32"
                 Height="32"
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Center" 
                 Margin="0" 
+                Click="btnDeletar_Click"
                 Padding="0">
                 <Image 
                     Source="/Assets/Icons/24x/delete_white.png" 

@@ -51,7 +51,6 @@ namespace UWP_JJCheckList
             CarregarParametros();
 
             taskSetup = new TaskSetup();
-            //taskSetup.children = this.gridViewConteudo.Items;
         }
 
         // Título
@@ -75,7 +74,6 @@ namespace UWP_JJCheckList
 
             SalvarTitulo();
         }
-
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             var taskContent = new TaskContent();
