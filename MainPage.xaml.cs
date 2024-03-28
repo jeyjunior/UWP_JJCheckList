@@ -7,6 +7,8 @@ using UWP_JJCheckList.Assets;
 using UWP_JJCheckList.Models.Entidades;
 using UWP_JJCheckList.Models.Interfaces;
 using UWP_JJCheckList.Models.Repositorios;
+using UWP_JJCheckList.Views.Task;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -16,8 +18,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// O modelo de item de Página em Branco está documentado em https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x416
 
 namespace UWP_JJCheckList
 {
@@ -51,7 +51,7 @@ namespace UWP_JJCheckList
             CarregarParametros();
 
             taskSetup = new TaskSetup();
-            taskSetup.children = this.stpContent.Children;
+            //taskSetup.children = this.gridViewConteudo.Items;
         }
 
         // Título
@@ -59,6 +59,9 @@ namespace UWP_JJCheckList
         {
             this.txtTitulo.Visibility = Visibility.Visible;
             this.txbTitulo.Visibility = Visibility.Collapsed;
+
+            this.txtTitulo.Focus(FocusState.Programmatic);
+            this.txtTitulo.SelectionStart = this.txtTitulo.Text.Length;
         }
         private void txtTitulo_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -75,7 +78,10 @@ namespace UWP_JJCheckList
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            taskSetup.ShowAsync();
+            var taskContent = new TaskContent();
+            taskContent.HorizontalContentAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch;
+            this.listViewConteudo.Items.Add(new TaskContent());
+            //taskSetup.ShowAsync();
         }
         private void btnDeletarAll_Click(object sender, RoutedEventArgs e)
         {

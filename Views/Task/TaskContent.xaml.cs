@@ -17,27 +17,31 @@ namespace UWP_JJCheckList.Views.Task
 {
     public sealed partial class TaskContent : UserControl
     {
-        private bool exibirBlocoNotas = false;
 
         public TaskContent()
         {
             this.InitializeComponent();
         }
-
-        private void btnBlocoNotas_Click(object sender, RoutedEventArgs e)
-        {
-            exibirBlocoNotas = !exibirBlocoNotas;
-            ExibirBlocoDeNotas();
-        }
-
-        private void ExibirBlocoDeNotas()
-        {
-            this.gridPrincipal.RowDefinitions[1].Height = exibirBlocoNotas ? new GridLength(200) : new GridLength(0);
-        }
-
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            ExibirBlocoDeNotas();
+        }
+
+        private void txtTarefa_LostFocus(object sender, RoutedEventArgs e)
+        {
+            this.txbTarefa.Text = this.txtTarefa.Text;
+
+            this.txbTarefa.Visibility = Visibility.Visible;
+            this.txtTarefa.Visibility = Visibility.Collapsed;
+        }
+
+        private void txbTarefa_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            this.txbTarefa.Visibility = Visibility.Collapsed;
+            this.txtTarefa.Visibility = Visibility.Visible;
+
+            this.txtTarefa.Focus(FocusState.Programmatic);
+            this.txtTarefa.SelectionStart = this.txtTarefa.Text.Length;
+
         }
     }
 }

@@ -17,13 +17,13 @@
         Padding="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="60" MinHeight="60"/>
-            <RowDefinition Height="*" MinHeight="200"/>
             <RowDefinition Height="40" MinHeight="40"/>
+            <RowDefinition Height="*" MinHeight="200"/>
             <RowDefinition Height="100" MinHeight="100"/>
         </Grid.RowDefinitions>
 
         <!-- Título -->
-        <Grid Grid.Row="0" Margin="32,0,32,0" Padding="0" Background="#202020" x:Name="gridTitulo">
+        <Grid Grid.Row="0" Margin="20,0,20,0" Padding="0" Background="#202020" x:Name="gridTitulo">
             <TextBox 
                 x:Name="txtTitulo" 
                 Text="Texto exemplo 2" 
@@ -45,65 +45,79 @@
                 Margin="0"
                 Padding="16,0"
                 Visibility="Visible"
+                VerticalAlignment="Center"
                 DoubleTapped="txbTitulo_DoubleTapped"/>
         </Grid>
 
-        <!-- Conteúdo -->
-        <Grid Grid.Row="1" Margin="0" Padding="0" Background="#292929" x:Name="gridConteudo">
-            <ScrollContentPresenter>
-                <StackPanel x:Name="stpContent" Orientation="Vertical"/>
-            </ScrollContentPresenter>
-        </Grid>
-
         <!-- Complementar -->
-        <Grid Grid.Row="2" Margin="0" Padding="0" Background="#202020" x:Name="gridComplementar">
+        <Grid Grid.Row="1" Margin="20,0,20,0" Padding="0" Background="#202020" x:Name="gridComplementar">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="60"/>
-                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="32"/>
             </Grid.ColumnDefinitions>
 
+            <TextBlock 
+                Grid.Column="0" 
+                x:Name="txbQtd" 
+                TextAlignment="Start" 
+                Text="10000/10000" 
+                Margin="20,0,0,0"
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Stretch"/>
 
             <ToggleButton 
-                Grid.Column="0" 
+                Grid.Column="1" 
                 x:Name="chkAll"
-                Width="20" Height="20"
-                Margin="20, 0, 0, 0"
+                Width="16" Height="16"
+                Margin="0"
                 Padding="0"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
                 BorderThickness="2"
                 Checked="chkAll_Checked"
                 Unchecked="chkAll_Unchecked" BorderBrush="#FFB9B9B9">
             </ToggleButton>
-            
-            <TextBlock 
-                Grid.Column="1" 
-                x:Name="txbQtd" 
-                TextAlignment="Center" 
-                Text="10000/10000" 
-                VerticalAlignment="Center" 
-                HorizontalAlignment="Stretch"/>
 
             <Button 
                 Grid.Column="2" 
-                x:Name="btnLimparAll" 
+                x:Name="btnLimparAll"
+                Margin="0"
+                Padding="0"
                 Background="Transparent" 
                 HorizontalAlignment="Stretch"  
                 VerticalAlignment="Stretch"
                 Click="btnLimparAll_Click">
-                <Image Source="/Assets/Icons/24x/erase_white_fill.png"/>
+                <Image Source="/Assets/Icons/24x/erase_white_fill.png" Width="16" Height="16"/>
             </Button>
 
             <Button 
                 Grid.Column="3" 
                 x:Name="btnDeletarAll" 
+                Margin="0"
+                Padding="0"
                 Background="Transparent" 
                 HorizontalAlignment="Stretch"  
                 VerticalAlignment="Stretch"
                 Click="btnDeletarAll_Click">
-                <Image Source="/Assets/Icons/24x/delete_white_fill.png"/>
+                <Image Source="/Assets/Icons/24x/delete_white_fill.png"  Width="16" Height="16"/>
             </Button>
         </Grid>
+
+        <!-- Conteúdo -->
+        <ListView 
+            Grid.Row="2" 
+            Margin="0" 
+            Padding="0" 
+            Background="#292929" 
+            x:Name="listViewConteudo">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
 
         <!-- Config -->
         <Grid Grid.Row="3" Margin="0" Padding="0" Background="#1E1E1E" x:Name="gridConfig">
@@ -120,7 +134,7 @@
                 VerticalAlignment="Stretch" 
                 Background="Transparent"
                 Click="btnAdd_Click">
-                <Image Source="/Assets/Images/add_white.png" Height="60" Width="60"/>
+                <Image Source="/Assets/Images/erase_white.png" Height="60" Width="60"/>
             </Button>
         </Grid>
     </Grid>

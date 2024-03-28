@@ -6,30 +6,31 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Loaded="UserControl_Loaded"
-    d:DesignHeight="260"
+    Loaded="UserControl_Loaded" 
+    d:DesignHeight="60" HorizontalAlignment="Stretch"
     d:DesignWidth="400">
 
-    <Grid x:Name="gridPrincipal" Margin="0"  Padding="0" Background="Transparent">
+    <Grid x:Name="gridPrincipal" Margin="0" HorizontalAlignment="Stretch"  Padding="0" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
-            <RowDefinition Height="200"/>
         </Grid.RowDefinitions>
         
         <!-- Task -->
-        <Grid x:Name="gridTask" Margin="0" Padding="0" Background="Transparent">
+        <Grid 
+            x:Name="gridTask" 
+            Margin="16,0,16,0" 
+            Padding="0" 
+            Background="Transparent">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="40"/>
-                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="36"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="40"/>
-                <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="40"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" x:Name="btnBlocoNotas" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="btnBlocoNotas_Click" Margin="0" Padding="0">
-                <Image Source="/Assets/Icons/24x/arrow_white.png"  Width="20" Height="20"/>
-            </Button>
+            <Image 
+                Grid.Row="0"
+                Source="/Assets/Icons/24x/reorder_dots_gray.png"                />
 
             <ToggleButton 
                 Grid.Column="1" 
@@ -40,34 +41,49 @@
                 Background="#FFCECECE"/>
 
             <TextBlock 
+                x:Name="txbTarefa"
                 Grid.Column="2" 
-                Text="" 
+                Text="Testestestestestes" 
                 VerticalAlignment="Center"
+                TextAlignment="Start"
+                Margin="0"
+                Padding="5,0,0,0"
                 HorizontalAlignment="Stretch"
-                TextWrapping="Wrap"/>
+                Visibility="Visible"
+                TextWrapping="Wrap" 
+                DoubleTapped="txbTarefa_DoubleTapped" />
+            <TextBox
+                x:Name="txtTarefa"
+                Grid.Column="2" 
+                Text="adsasdasdas asd asd sa" 
+                VerticalAlignment="Center"
+                TextAlignment="Start"
+                Margin="0"
+                Padding="0"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                HorizontalAlignment="Stretch"
+                TextWrapping="Wrap"
+                Visibility="Collapsed" LostFocus="txtTarefa_LostFocus"/>
 
-            <Button Grid.Column="3" x:Name="btnEditar" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Padding="0">
-                <Image Source="/Assets/Icons/24x/edit_white.png" Width="20" Height="20"/>
+            <Button 
+                Grid.Column="3" 
+                x:Name="btnEditar" 
+                CornerRadius="6" 
+                Background="#202020" 
+                Width="32"
+                Height="32"
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center" 
+                Margin="0" 
+                Padding="0">
+                <Image 
+                    Source="/Assets/Icons/24x/delete_white.png" 
+                    Width="16"
+                    Height="16"
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center"/>
             </Button>
-
-            <Button Grid.Column="4" x:Name="btnLimpar" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Padding="0">
-                <Image Source="/Assets/Icons/24x/erase_white.png"  Width="20" Height="20"/>
-            </Button>
-
-            <Button Grid.Column="5" x:Name="btnDeletar" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Padding="0">
-                <Image Source="/Assets/Icons/24x/delete_white.png"  Width="20" Height="20"/>
-            </Button>
-            
         </Grid>
-        
-        <!-- Notepad -->
-        <TextBox Grid.Row="1"
-            AcceptsReturn="True"        
-            TextWrapping="Wrap"
-            MaxLength="0"
-            Background="Transparent"
-            BorderBrush="Transparent"
-            Text=""/>
-
     </Grid>
 </UserControl>

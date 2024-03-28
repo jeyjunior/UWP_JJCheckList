@@ -142,10 +142,14 @@
     <Content Include="Assets\Icons\24x\arrow_white.png" />
     <Content Include="Assets\Icons\24x\delete_white.png" />
     <Content Include="Assets\Icons\24x\delete_white_fill.png" />
+    <Content Include="Assets\Icons\24x\dots_white.png" />
     <Content Include="Assets\Icons\24x\edit_white.png" />
     <Content Include="Assets\Icons\24x\edit_white_fill.png" />
     <Content Include="Assets\Icons\24x\erase_white.png" />
     <Content Include="Assets\Icons\24x\erase_white_fill.png" />
+    <Content Include="Assets\Icons\24x\reorder_dots_gray.png" />
+    <Content Include="Assets\Icons\24x\reorder_dots_white.png" />
+    <Content Include="Assets\Icons\48x\dots_white_48x.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
