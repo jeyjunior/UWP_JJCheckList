@@ -24,7 +24,12 @@
                 <RowDefinition Height="48"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" x:Name="txbTitulo" Text="Tarefa" Foreground="#999999"/>
-            <TextBox Grid.Row="1" x:Name="txtTarefa" Text="" TextWrapping="Wrap" MaxLength="120"></TextBox>
+            <TextBox 
+                Grid.Row="1" 
+                x:Name="txtTarefa" 
+                Text="" 
+                TextWrapping="Wrap" 
+                MaxLength="120"/>
         </Grid>
     </Grid>
 </ContentDialog>

@@ -34,6 +34,8 @@
                 HorizontalAlignment="Center" 
                 Width="18" Height="18"
                 Margin="0" Padding="0"
+                Checked="tgbTarefa_Checked"
+                Unchecked="tgbTarefa_Unchecked"
                 Background="#FFCECECE"/>
 
             <TextBlock 

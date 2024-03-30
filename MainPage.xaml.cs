@@ -11,6 +11,7 @@ using UWP_JJCheckList.Views.Task;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -25,6 +26,7 @@ namespace UWP_JJCheckList
     {
         #region Interfaces
         private readonly ICLParametroRepositorio cLParametroRepositorio;
+        private readonly ICLTaskContentRepositorio cLTaskContentRepositorio;
         #endregion
         #region Propriedades
         private CLParametro pTituloPrincipal;
@@ -40,7 +42,8 @@ namespace UWP_JJCheckList
         {
             this.InitializeComponent();
 
-            cLParametroRepositorio = App.Container.GetInstance<ICLParametroRepositorio>();  
+            cLParametroRepositorio = App.Container.GetInstance<ICLParametroRepositorio>();
+            cLTaskContentRepositorio = App.Container.GetInstance<ICLTaskContentRepositorio>();
         }
         #endregion
 
@@ -49,8 +52,10 @@ namespace UWP_JJCheckList
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
             CarregarParametros();
+            CarregarTasks();
 
             taskSetup = new TaskSetup();
+            taskSetup.listView = this.listViewConteudo;
         }
 
         // Título
@@ -76,10 +81,7 @@ namespace UWP_JJCheckList
         }
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            var taskContent = new TaskContent();
-            taskContent.HorizontalContentAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch;
-            this.listViewConteudo.Items.Add(new TaskContent());
-            //taskSetup.ShowAsync();
+            taskSetup.ShowAsync();
         }
         private void btnDeletarAll_Click(object sender, RoutedEventArgs e)
         {
@@ -133,6 +135,34 @@ namespace UWP_JJCheckList
                 ExibirMensagemErro("Erro", ex.Message);
             }
         }
+        private void CarregarTasks()
+        {
+            try
+            {
+                var taskContentCollection = cLTaskContentRepositorio.ObterLista();
+
+                if (taskContentCollection == null)
+                    return;
+
+                if (taskContentCollection.Count() <= 0)
+                    return;
+
+                foreach (var item in taskContentCollection)
+                {
+                    if(item == null)
+                        continue;
+
+                    var taskContent = new TaskContent(item);
+                    taskContent.DeletarItem += (s, e) => { this.listViewConteudo.Items.Remove(taskContent); };
+                    this.listViewConteudo.Items.Add(taskContent);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         private void SalvarTitulo()
         {
             try
@@ -153,7 +183,6 @@ namespace UWP_JJCheckList
                 msg.ShowAsync();
             }
         }
-        
         private void ExibirMensagemErro(string titulo, string conteudo)
         {
             var msg = new ContentDialog { Title = titulo, Content = conteudo, CloseButtonText = "OK" };

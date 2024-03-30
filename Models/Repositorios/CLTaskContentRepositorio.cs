@@ -22,7 +22,7 @@ namespace UWP_JJCheckList.Models.Repositorios
 
                 var resultado = App.DBConnection.Insert(taskContent);
 
-                if (resultado == null)
+                if (resultado <= 0)
                 {
                     taskContent.ValidationResult = new ValidationResult("Não foi possível registrar a tarefa na base de dados.");
                     return -1;
@@ -148,5 +148,40 @@ namespace UWP_JJCheckList.Models.Repositorios
                 return null;
             }
         }
+
+        public bool Deletar(CLTaskContent taskContent)
+        {
+            try
+            {
+                if (taskContent == null)
+                    return false;
+
+                if (taskContent.PK_CLTaskContent <= 0 && string.IsNullOrEmpty(taskContent.Tarefa))
+                {
+                    taskContent.ValidationResult = new ValidationResult("É necessário inserir algum ID ou Tarefa.");
+                    return false;
+                }
+
+                var taskContentResultado = App.DBConnection.Delete(taskContent);
+
+                if (taskContentResultado < 0)
+                {
+                    taskContent.ValidationResult = new ValidationResult("Falha ao tentar deletar tarefa.");
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                taskContent = new CLTaskContent
+                {
+                    ValidationResult = new ValidationResult(ex.Message),
+                };
+
+                return false;
+            }
+        }
+
     }
 }

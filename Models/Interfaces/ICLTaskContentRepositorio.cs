@@ -13,5 +13,6 @@ namespace UWP_JJCheckList.Models.Interfaces
         bool Atualizar(CLTaskContent taskContent);
         CLTaskContent Obter(CLTaskContent taskContent);
         IEnumerable<CLTaskContent> ObterLista();
+        bool Deletar(CLTaskContent taskContent);
     }
 }

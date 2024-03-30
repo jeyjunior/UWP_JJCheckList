@@ -120,6 +120,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Entidades\CLTaskContent.cs" />
+    <Compile Include="Models\Interfaces\ICLTaskContentRepositorio.cs" />
+    <Compile Include="Models\Repositorios\CLTaskContentRepositorio.cs" />
     <Compile Include="Views\Task\TaskContent.xaml.cs">
       <DependentUpon>TaskContent.xaml</DependentUpon>
     </Compile>
