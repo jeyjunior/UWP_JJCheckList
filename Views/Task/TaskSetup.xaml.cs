@@ -1,4 +1,5 @@
 ﻿using System.ServiceModel.Channels;
+using System.Threading.Tasks;
 using UWP_JJCheckList.Models.Entidades;
 using UWP_JJCheckList.Models.Interfaces;
 using UWP_JJCheckList.Models.Repositorios;
@@ -38,15 +39,21 @@ namespace UWP_JJCheckList.Assets
             clTaskContent.Tarefa = txtTarefa.Text;
             clTaskContent.Checked = false;
 
-            int pK_CLTaskContent = cLTaskContentRepositorio.Inserir(clTaskContent);
+            var taskResult = Task.Run(() => cLTaskContentRepositorio.InserirAsync(clTaskContent));
+            
 
             if (!clTaskContent.IsValid)
             {
                 ExibirMensagemErro("Erro", clTaskContent.ValidationResult.ErrorMessage);
                 return;
             }
+            else if(taskResult.Result <= 0)
+            {
+                ExibirMensagemErro("Erro", "Não foi possível registrar tarefa.");
+                return;
+            }
 
-            clTaskContent.PK_CLTaskContent = pK_CLTaskContent;
+            clTaskContent.PK_CLTaskContent = taskResult.Result;
             TaskContent taskContent = new TaskContent(clTaskContent, mainPageManipularComponentes);
             taskContent.HorizontalContentAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch;
             this.mainPageManipularComponentes.AddItem(taskContent);

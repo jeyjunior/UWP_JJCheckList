@@ -88,7 +88,7 @@ namespace UWP_JJCheckList.Views.Task
         {
             clTaskContent.Tarefa = this.txtTarefa.Text;
             clTaskContent.Checked = (bool)this.tgbTarefa.IsChecked;
-            cLTaskContentRepositorio.Atualizar(clTaskContent);
+            cLTaskContentRepositorio.AtualizarAsync(clTaskContent);
         }
         private void ExibirMensagemErro(string titulo, string conteudo)
         {
@@ -110,7 +110,7 @@ namespace UWP_JJCheckList.Views.Task
         }
         private void Deletar()
         {
-            cLTaskContentRepositorio.Deletar(clTaskContent);
+            cLTaskContentRepositorio.DeletarAsync(clTaskContent);
 
             if (!clTaskContent.IsValid)
             {
