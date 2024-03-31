@@ -1,13 +1,10 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using UWP_JJCheckList.Assets;
-using UWP_JJCheckList.Models.Entidades;
-using UWP_JJCheckList.Models.Interfaces;
-using UWP_JJCheckList.Models.Repositorios;
-using UWP_JJCheckList.Views.Task;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -19,15 +16,21 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using UWP_JJCheckList.Assets;
+using UWP_JJCheckList.Models.Entidades;
+using UWP_JJCheckList.Models.Interfaces;
+using UWP_JJCheckList.Models.Repositorios;
+using UWP_JJCheckList.Views.Task;
 
 namespace UWP_JJCheckList
 {
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage : Page, IMainPageManipularComponentes
     {
         #region Interfaces
         private readonly ICLParametroRepositorio cLParametroRepositorio;
         private readonly ICLTaskContentRepositorio cLTaskContentRepositorio;
         #endregion
+
         #region Propriedades
         private CLParametro pTituloPrincipal;
         private CLParametro pTituloPrincipalFontSize;
@@ -54,8 +57,20 @@ namespace UWP_JJCheckList
             CarregarParametros();
             CarregarTasks();
 
-            taskSetup = new TaskSetup();
-            taskSetup.listView = this.listViewConteudo;
+            taskSetup = new TaskSetup(this);
+
+            if (listViewConteudo.Items.Count > 0)
+            {
+                listViewConteudo.ScrollIntoView(this.listViewConteudo.Items.First());
+
+            }
+            else
+            {
+                this.btnAdd.Focus(FocusState.Programmatic);
+            }
+
+            HabilitarComponentes();
+            AtualizarContador();
         }
 
         // Título
@@ -83,22 +98,94 @@ namespace UWP_JJCheckList
         {
             taskSetup.ShowAsync();
         }
-        private void btnDeletarAll_Click(object sender, RoutedEventArgs e)
+        private async void btnDeletarAll_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                if (this.listViewConteudo.Items.Count > 0)
+                {
+                    var dialog = new ContentDialog
+                    {
+                        Title = "Opções de exclusão",
+                        Content = "Selecione uma opção:",
+                        PrimaryButtonText = "Deletar tudo",
+                        SecondaryButtonText = "Deletar selecionados",
+                        CloseButtonText = "Cancelar"
+                    };
 
-        }
-        private void btnLimparAll_Click(object sender, RoutedEventArgs e)
-        {
+                    var result = await dialog.ShowAsync();
 
+                    CoreWindow.GetForCurrentThread().PointerCursor = new CoreCursor(CoreCursorType.Wait, 1);
+
+                    if (result == ContentDialogResult.Primary)
+                    {
+                        this.listViewConteudo.Items
+                            .OfType<ITaskContentManipularComponentes>()
+                            .ToList()
+                            .ForEach(i => i.DeletarItem());
+
+                        this.listViewConteudo.Items.Clear();
+                    }
+                    else if (result == ContentDialogResult.Secondary)
+                    {
+                        this.listViewConteudo.Items
+                            .OfType<ITaskContentManipularComponentes>()
+                            .ToList()
+                            .ForEach(i =>
+                            {
+                                if (i.ObterCheckBoxStatus() == true)
+                                {
+                                    i.DeletarItem();
+                                    listViewConteudo.Items.Remove(i);
+                                }
+                            });
+                    }
+                }
+            }
+            finally
+            {
+                CoreWindow.GetForCurrentThread().PointerCursor = new CoreCursor(CoreCursorType.Arrow, 1);
+            }
         }
         private void chkAll_Checked(object sender, RoutedEventArgs e)
         {
+            CoreWindow.GetForCurrentThread().PointerCursor = new CoreCursor(CoreCursorType.Wait, 1);
 
+            try
+            {
+                if (this.listViewConteudo.Items.Count > 0)
+                {
+                    this.listViewConteudo.Items
+                        .OfType<ITaskContentManipularComponentes>()
+                        .ToList()
+                        .ForEach(i => i.MarcarCheckBox());
+                }
+            }
+            finally
+            {
+                CoreWindow.GetForCurrentThread().PointerCursor = new CoreCursor(CoreCursorType.Arrow, 1);
+            }
         }
         private void chkAll_Unchecked(object sender, RoutedEventArgs e)
         {
+            CoreWindow.GetForCurrentThread().PointerCursor = new CoreCursor(CoreCursorType.Wait, 1);
 
+            try
+            {
+                if (this.listViewConteudo.Items.Count > 0)
+                {
+                    this.listViewConteudo.Items
+                                                .OfType<ITaskContentManipularComponentes>()
+                                                .ToList()
+                                                .ForEach(i => i.DesmarcarCheckBox());
+                }
+            }
+            finally
+            {
+                CoreWindow.GetForCurrentThread().PointerCursor = new CoreCursor(CoreCursorType.Arrow, 1);
+            }
         }
+        
         #endregion
 
         #region Métodos
@@ -152,16 +239,40 @@ namespace UWP_JJCheckList
                     if(item == null)
                         continue;
 
-                    var taskContent = new TaskContent(item);
-                    taskContent.DeletarItem += (s, e) => { this.listViewConteudo.Items.Remove(taskContent); };
+                    var taskContent = new TaskContent(item, this);
                     this.listViewConteudo.Items.Add(taskContent);
                 }
+
+                HabilitarComponentes();
+                AtualizarContador();
             }
             catch (Exception)
             {
 
                 throw;
             }
+        }
+        private void HabilitarComponentes()
+        {
+            bool habilitar = (this.listViewConteudo.Items.Count > 0);
+            this.chkAll.Visibility = habilitar ? Visibility.Visible : Visibility.Collapsed;
+            this.btnDeletarAll.Visibility = habilitar ? Visibility.Visible : Visibility.Collapsed;
+        }
+        private void AtualizarContador()
+        {
+            //this.txbQtd.Text = "";
+
+            //if(this.listViewConteudo.Items.Count > 0)
+            //{
+            //    int qtdTotal = this.listViewConteudo.Items.Count;
+            //    int qtdMarcada = this.listViewConteudo
+            //        .Items
+            //        .OfType<TaskContent>()
+            //        .Where(i => i.ObterCheckBoxStatus() == true)
+            //        .Count();
+
+            //    this.txbQtd.Text = $"{qtdMarcada}/{qtdTotal}";
+            //}
         }
         private void SalvarTitulo()
         {
@@ -187,6 +298,18 @@ namespace UWP_JJCheckList
         {
             var msg = new ContentDialog { Title = titulo, Content = conteudo, CloseButtonText = "OK" };
             msg.ShowAsync();
+        }
+        public void AddItem(TaskContent taskContent)
+        {
+            this.listViewConteudo.Items.Add(taskContent);
+            HabilitarComponentes();
+            AtualizarContador();
+        }
+        public void DeletarItem(TaskContent taskContent)
+        {
+            this.listViewConteudo.Items.Remove(taskContent);
+            HabilitarComponentes();
+            AtualizarContador();
         }
         #endregion
     }

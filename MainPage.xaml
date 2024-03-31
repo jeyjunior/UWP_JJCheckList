@@ -62,6 +62,7 @@
                 x:Name="txbQtd" 
                 TextAlignment="Start" 
                 Text="10000/10000" 
+                Visibility="Collapsed"
                 Margin="10,0,0,0"
                 VerticalAlignment="Center" 
                 HorizontalAlignment="Stretch"/>
@@ -96,13 +97,14 @@
         <ListView 
             Grid.Row="2" 
             Margin="0" 
-            Padding="0" 
             Background="#292929" 
             SelectionMode="Single"
+            
             x:Name="listViewConteudo">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Padding" Value="0"/>
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
@@ -122,7 +124,7 @@
                 VerticalAlignment="Stretch" 
                 Background="Transparent"
                 Click="btnAdd_Click">
-                <Image Source="/Assets/Images/erase_white.png" Height="60" Width="60"/>
+                <Image Source="/Assets/Icons/64x/add_white_64x.png" Height="60" Width="60"/>
             </Button>
         </Grid>
     </Grid>

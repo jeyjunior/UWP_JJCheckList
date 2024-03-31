@@ -182,6 +182,5 @@ namespace UWP_JJCheckList.Models.Repositorios
                 return false;
             }
         }
-
     }
 }

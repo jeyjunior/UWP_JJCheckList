@@ -121,6 +121,8 @@
     </Compile>
     <Compile Include="Models\Entidades\CLTaskContent.cs" />
     <Compile Include="Models\Interfaces\ICLTaskContentRepositorio.cs" />
+    <Compile Include="Models\Interfaces\IMainPageManipularComponentes.cs" />
+    <Compile Include="Models\Interfaces\ITaskContentManipularComponentes.cs" />
     <Compile Include="Models\Repositorios\CLTaskContentRepositorio.cs" />
     <Compile Include="Views\Task\TaskContent.xaml.cs">
       <DependentUpon>TaskContent.xaml</DependentUpon>
@@ -152,7 +154,9 @@
     <Content Include="Assets\Icons\24x\erase_white_fill.png" />
     <Content Include="Assets\Icons\24x\reorder_dots_gray.png" />
     <Content Include="Assets\Icons\24x\reorder_dots_white.png" />
+    <Content Include="Assets\Icons\48x\checkmark_white_48x.png" />
     <Content Include="Assets\Icons\48x\dots_white_48x.png" />
+    <Content Include="Assets\Icons\64x\add_white_64x.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

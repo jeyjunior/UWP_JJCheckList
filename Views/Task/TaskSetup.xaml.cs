@@ -3,6 +3,7 @@ using UWP_JJCheckList.Models.Entidades;
 using UWP_JJCheckList.Models.Interfaces;
 using UWP_JJCheckList.Models.Repositorios;
 using UWP_JJCheckList.Views.Task;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 
@@ -15,15 +16,16 @@ namespace UWP_JJCheckList.Assets
         #endregion
 
         #region Propriedades
-        public ListView listView;
+        private IMainPageManipularComponentes mainPageManipularComponentes;
         private CLTaskContent clTaskContent;
         #endregion
 
         #region Método Construtor
-        public TaskSetup()
+        public TaskSetup(IMainPageManipularComponentes mainPageManipularComponentes)
         {
             this.InitializeComponent();
 
+            this.mainPageManipularComponentes = mainPageManipularComponentes;
             cLTaskContentRepositorio = App.Container.GetInstance<ICLTaskContentRepositorio>();  
 
             clTaskContent = new CLTaskContent() { Checked = false, };
@@ -34,6 +36,8 @@ namespace UWP_JJCheckList.Assets
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             clTaskContent.Tarefa = txtTarefa.Text;
+            clTaskContent.Checked = false;
+
             int pK_CLTaskContent = cLTaskContentRepositorio.Inserir(clTaskContent);
 
             if (!clTaskContent.IsValid)
@@ -43,15 +47,12 @@ namespace UWP_JJCheckList.Assets
             }
 
             clTaskContent.PK_CLTaskContent = pK_CLTaskContent;
-            TaskContent taskContent = new TaskContent(clTaskContent);
+            TaskContent taskContent = new TaskContent(clTaskContent, mainPageManipularComponentes);
             taskContent.HorizontalContentAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch;
-            taskContent.DeletarItem += (s, e) => { listView.Items.Remove(taskContent); };
-
-            listView.Items.Add(taskContent);
+            this.mainPageManipularComponentes.AddItem(taskContent);
 
             Limpar();
         }
-
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             Limpar();
@@ -67,11 +68,6 @@ namespace UWP_JJCheckList.Assets
         {
             var msg = new ContentDialog { Title = titulo, Content = conteudo, CloseButtonText = "OK" };
             msg.ShowAsync();
-        }
-        
-        private void DeletarItem()
-        {
-
         }
         #endregion
     }
