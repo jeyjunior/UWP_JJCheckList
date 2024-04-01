@@ -21,6 +21,8 @@ using UWP_JJCheckList.Models.Entidades;
 using UWP_JJCheckList.Models.Interfaces;
 using UWP_JJCheckList.Models.Repositorios;
 using UWP_JJCheckList.Views.Task;
+using Windows.UI.ViewManagement;
+using Windows.ApplicationModel;
 
 namespace UWP_JJCheckList
 {
@@ -299,9 +301,30 @@ namespace UWP_JJCheckList
             var msg = new ContentDialog { Title = titulo, Content = conteudo, CloseButtonText = "OK" };
             msg.ShowAsync();
         }
-        public void AddItem(TaskContent taskContent)
+        public void AddNovoItem(CLTaskContent clTaskContent)
         {
+            TaskContent taskContent = new TaskContent(clTaskContent, this);
+            taskContent.HorizontalContentAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch;
             this.listViewConteudo.Items.Add(taskContent);
+
+            int indice = this.listViewConteudo.Items.IndexOf(taskContent);
+            clTaskContent.IndiceLista = indice;
+
+            var taskResult = Task.Run(() => cLTaskContentRepositorio.InserirAsync(clTaskContent));
+
+            if (!clTaskContent.IsValid)
+            {
+                ExibirMensagemErro("Erro", clTaskContent.ValidationResult.ErrorMessage);
+                return;
+            }
+            else if (taskResult.Result <= 0)
+            {
+                ExibirMensagemErro("Erro", "Não foi possível registrar tarefa.");
+                return;
+            }
+
+            clTaskContent.PK_CLTaskContent = taskResult.Result;
+
             HabilitarComponentes();
             AtualizarContador();
         }

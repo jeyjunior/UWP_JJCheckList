@@ -29,8 +29,6 @@ namespace UWP_JJCheckList
     {
         public static Container Container { get; private set; }
         public static SQLiteConnection DBConnection { get; private set; }
-
-
         /// <summary>
         /// Inicializa o objeto singleton do aplicativo. Essa é a primeira linha do código criado
         /// executado e, por isso, é o equivalente lógico de main() ou WinMain().
@@ -45,7 +43,6 @@ namespace UWP_JJCheckList
 
             this.Suspending += OnSuspending;
         }
-
         /// <summary>
         /// Invocado quando o aplicativo é iniciado normalmente pelo usuário final. Outros pontos de entrada
         /// serão usados, por exemplo, quando o aplicativo for iniciado para abrir um arquivo específico.
@@ -86,7 +83,6 @@ namespace UWP_JJCheckList
                 Window.Current.Activate();
             }
         }
-
         /// <summary>
         /// Chamado quando ocorre uma falha na Navegação para uma determinada página
         /// </summary>
@@ -96,7 +92,6 @@ namespace UWP_JJCheckList
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
-
         /// <summary>
         /// Invocado quando a execução do aplicativo é suspensa. O estado do aplicativo é salvo
         /// sem saber se o aplicativo será encerrado ou retomado com o conteúdo
@@ -110,7 +105,6 @@ namespace UWP_JJCheckList
             //TODO: Salvar o estado do aplicativo e parar qualquer atividade em segundo plano
             deferral.Complete();
         }
-    
         private void InicializarRepositorios()
         {
             Container = new Container();

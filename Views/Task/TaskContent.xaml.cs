@@ -26,7 +26,7 @@ namespace UWP_JJCheckList.Views.Task
         #endregion
         #region Propriedades
         private IMainPageManipularComponentes mainPageManipularComponentes;
-        private CLTaskContent clTaskContent { get; set; }
+        private CLTaskContent clTaskContent { get;  set; }
         #endregion
 
         #region Método Construtor
@@ -36,17 +36,17 @@ namespace UWP_JJCheckList.Views.Task
 
             this.clTaskContent = clTaskContent;
             this.mainPageManipularComponentes = mainPageManipularComponentes;
-            cLTaskContentRepositorio = App.Container.GetInstance<ICLTaskContentRepositorio>();  
+            cLTaskContentRepositorio = App.Container.GetInstance<ICLTaskContentRepositorio>();
+
+            this.txtTarefa.Text = clTaskContent.Tarefa;
+            this.txbTarefa.Text = clTaskContent.Tarefa;
+            this.tgbTarefa.IsChecked = clTaskContent.Checked;
         }
         #endregion
 
         #region Eventos
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            this.txtTarefa.Text = clTaskContent.Tarefa;
-            this.txbTarefa.Text = clTaskContent.Tarefa;
-            this.tgbTarefa.IsChecked = clTaskContent.Checked;
-
             AtualizarCorTextos();
         }
         private void txtTarefa_LostFocus(object sender, RoutedEventArgs e)
@@ -138,6 +138,10 @@ namespace UWP_JJCheckList.Views.Task
         public bool ObterCheckBoxStatus()
         {
             return (bool)this.tgbTarefa.IsChecked;
+        }
+        public void DefinirIndice(int indice)
+        {
+            this.clTaskContent.IndiceLista = indice;
         }
         #endregion
     }

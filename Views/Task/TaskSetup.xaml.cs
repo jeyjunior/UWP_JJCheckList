@@ -12,13 +12,9 @@ namespace UWP_JJCheckList.Assets
 {
     public sealed partial class TaskSetup : ContentDialog
     {
-        #region Interfaces
-        private readonly ICLTaskContentRepositorio cLTaskContentRepositorio;
-        #endregion
-
         #region Propriedades
         private IMainPageManipularComponentes mainPageManipularComponentes;
-        private CLTaskContent clTaskContent;
+        private CLTaskContent taskContent;
         #endregion
 
         #region Método Construtor
@@ -27,36 +23,15 @@ namespace UWP_JJCheckList.Assets
             this.InitializeComponent();
 
             this.mainPageManipularComponentes = mainPageManipularComponentes;
-            cLTaskContentRepositorio = App.Container.GetInstance<ICLTaskContentRepositorio>();  
-
-            clTaskContent = new CLTaskContent() { Checked = false, };
+            taskContent = new CLTaskContent();
         }
         #endregion
 
         #region Eventos
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            clTaskContent.Tarefa = txtTarefa.Text;
-            clTaskContent.Checked = false;
-
-            var taskResult = Task.Run(() => cLTaskContentRepositorio.InserirAsync(clTaskContent));
-            
-
-            if (!clTaskContent.IsValid)
-            {
-                ExibirMensagemErro("Erro", clTaskContent.ValidationResult.ErrorMessage);
-                return;
-            }
-            else if(taskResult.Result <= 0)
-            {
-                ExibirMensagemErro("Erro", "Não foi possível registrar tarefa.");
-                return;
-            }
-
-            clTaskContent.PK_CLTaskContent = taskResult.Result;
-            TaskContent taskContent = new TaskContent(clTaskContent, mainPageManipularComponentes);
-            taskContent.HorizontalContentAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch;
-            this.mainPageManipularComponentes.AddItem(taskContent);
+            taskContent.Tarefa = this.txtTarefa.Text;
+            this.mainPageManipularComponentes.AddNovoItem(taskContent);
 
             Limpar();
         }
@@ -70,6 +45,10 @@ namespace UWP_JJCheckList.Assets
         private void Limpar()
         {
             this.txtTarefa.Text = "";
+
+            taskContent.Tarefa = "";
+            taskContent.Checked = false;
+            taskContent.IndiceLista = 0;
         }
         private void ExibirMensagemErro(string titulo, string conteudo)
         {

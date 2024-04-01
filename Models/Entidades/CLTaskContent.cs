@@ -16,6 +16,8 @@ namespace UWP_JJCheckList.Models.Entidades
         public bool Checked { get; set; }
         [NotNull]
         public string Tarefa { get; set; }
+        [NotNull]
+        public int IndiceLista { get; set; }
 
         [Ignore]
         public ValidationResult ValidationResult { get; set; }

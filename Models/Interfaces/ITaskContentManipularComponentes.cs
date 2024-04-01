@@ -12,5 +12,6 @@ namespace UWP_JJCheckList.Models.Interfaces
         void DesmarcarCheckBox();
         void DeletarItem();
         bool ObterCheckBoxStatus();
+        void DefinirIndice(int indice);
     }
 }
