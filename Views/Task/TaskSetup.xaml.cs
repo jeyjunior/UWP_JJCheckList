@@ -24,6 +24,8 @@ namespace UWP_JJCheckList.Assets
 
             this.mainPageManipularComponentes = mainPageManipularComponentes;
             taskContent = new CLTaskContent();
+
+            Limpar();
         }
         #endregion
 
@@ -31,6 +33,9 @@ namespace UWP_JJCheckList.Assets
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             taskContent.Tarefa = this.txtTarefa.Text;
+            taskContent.Checked = false;
+            taskContent.IndiceLista = 0;
+
             this.mainPageManipularComponentes.AddNovoItem(taskContent);
 
             Limpar();
