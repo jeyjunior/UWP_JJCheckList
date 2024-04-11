@@ -1,6 +1,5 @@
 ﻿using SimpleInjector;
 using SQLite;
-using SQLite.Net.Platform.WinRT;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,6 +24,9 @@ using Windows.UI.Xaml.Navigation;
 
 namespace UWP_JJCheckList
 {
+    /// <summary>
+    ///Fornece o comportamento específico do aplicativo para complementar a classe Application padrão.
+    /// </summary>
     sealed partial class App : Application
     {
         public static Container Container { get; private set; }
@@ -142,7 +144,7 @@ namespace UWP_JJCheckList
             try
             {
                 string parametroTeste = Enum.GetName(typeof(Parametros), Parametros.TituloPrincipal);
-                var consultaTeste = DBConnection.Table<CLParametro>().Where(i => i.Parametro == parametroTeste).FirstOrDefault() ;
+                var consultaTeste = DBConnection.Table<CLParametro>().Where(i => i.Parametro == parametroTeste).FirstOrDefault();
 
                 if (consultaTeste != null)
                     return;

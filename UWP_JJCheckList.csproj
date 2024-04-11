@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{626D2826-5380-45F5-AEA2-0E20DFF717AC}</ProjectGuid>
+    <ProjectGuid>{A4BDE5EF-553B-4CC6-9B5D-4BE709D0CFF0}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UWP_JJCheckList</RootNamespace>
@@ -18,15 +18,6 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
-    <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
-    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
-    <AppxPackageDir>D:\Projetos\JeyJunior\AppPackages</AppxPackageDir>
-    <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
-    <AppInstallerUri>D:\Projetos\Apps-Build\JJCheckList</AppInstallerUri>
-    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -128,24 +119,24 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entidades\CLParametro.cs" />
     <Compile Include="Models\Entidades\CLTaskContent.cs" />
+    <Compile Include="Models\Interfaces\ICLParametroRepositorio.cs" />
     <Compile Include="Models\Interfaces\ICLTaskContentRepositorio.cs" />
     <Compile Include="Models\Interfaces\IMainPageManipularComponentes.cs" />
     <Compile Include="Models\Interfaces\ITaskContentManipularComponentes.cs" />
+    <Compile Include="Models\Repositorios\CLParametroRepositorio.cs" />
     <Compile Include="Models\Repositorios\CLTaskContentRepositorio.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Task\TaskContent.xaml.cs">
       <DependentUpon>TaskContent.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Task\TaskSetup.xaml.cs">
       <DependentUpon>TaskSetup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Entidades\CLParametro.cs" />
-    <Compile Include="Models\Interfaces\ICLParametroRepositorio.cs" />
-    <Compile Include="Models\Repositorios\CLParametroRepositorio.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -166,7 +157,6 @@
     <Content Include="Assets\Icons\48x\checkmark_white_48x.png" />
     <Content Include="Assets\Icons\48x\dots_white_48x.png" />
     <Content Include="Assets\Icons\64x\add_white_64x.png" />
-    <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -181,6 +171,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Task\TaskContent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -189,14 +183,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.SQLite">
-      <Version>8.0.3</Version>
+    <PackageReference Include="Microsoft.Data.Sqlite">
+      <Version>8.0.4</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.14</Version>
@@ -205,10 +195,7 @@
       <Version>5.4.4</Version>
     </PackageReference>
     <PackageReference Include="sqlite-net-pcl">
-      <Version>1.8.116</Version>
-    </PackageReference>
-    <PackageReference Include="SQLite.Net-PCL">
-      <Version>3.1.1</Version>
+      <Version>1.9.172</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup />

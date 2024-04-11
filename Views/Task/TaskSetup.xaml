@@ -16,7 +16,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
-        
+
         <!-- Titulo da tarefa -->
         <Grid Grid.Row="0">
             <Grid.RowDefinitions>

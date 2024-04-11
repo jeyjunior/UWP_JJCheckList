@@ -26,7 +26,7 @@ namespace UWP_JJCheckList.Views.Task
         #endregion
         #region Propriedades
         private IMainPageManipularComponentes mainPageManipularComponentes;
-        private CLTaskContent clTaskContent { get;  set; }
+        private CLTaskContent clTaskContent { get; set; }
         #endregion
 
         #region Método Construtor
@@ -97,7 +97,7 @@ namespace UWP_JJCheckList.Views.Task
         }
         private void AtualizarCorTextos()
         {
-            if(this.clTaskContent.Checked)
+            if (this.clTaskContent.Checked)
             {
                 Color cor = (Color)XamlBindingHelper.ConvertValue(typeof(Color), "#666666");
                 this.txbTarefa.Foreground = new SolidColorBrush(cor);

@@ -36,7 +36,7 @@ namespace UWP_JJCheckList.Models.Repositorios
 
                 var pExiste = Obter(cLParametro);
 
-                if(pExiste != null)
+                if (pExiste != null)
                 {
                     cLParametro.ValidationResult = new ValidationResult("O Parâmetro já foi registrado anteriormente.");
                     return -1;
@@ -44,7 +44,7 @@ namespace UWP_JJCheckList.Models.Repositorios
 
                 var resultado = App.DBConnection.Insert(cLParametro);
 
-                if(resultado == null)
+                if (resultado == null)
                 {
                     cLParametro.ValidationResult = new ValidationResult("Não foi possível registrar o parâmetro na base de dados.");
                     return -1;
@@ -54,7 +54,7 @@ namespace UWP_JJCheckList.Models.Repositorios
                     .Where(i => i.Parametro == cLParametro.Parametro && i.Grupo == cLParametro.Grupo && i.Valor == cLParametro.Valor)
                     .FirstOrDefault();
 
-                if(cLParametroRegistrado == null)
+                if (cLParametroRegistrado == null)
                 {
                     cLParametro.ValidationResult = new ValidationResult("Não foi possível obter o ID do parâmetro registrado.");
                     return -1;
@@ -66,10 +66,10 @@ namespace UWP_JJCheckList.Models.Repositorios
             {
                 cLParametro.ValidationResult = new ValidationResult(ex.Message);
             }
-            
+
             return -1;
         }
-    
+
         public bool Atualizar(CLParametro cLParametro)
         {
             try
@@ -109,7 +109,7 @@ namespace UWP_JJCheckList.Models.Repositorios
 
             var resultado = Obter(clParametro);
 
-            if(resultado == null)
+            if (resultado == null)
             {
                 clParametro.ValidationResult = new ValidationResult("Nenhum parâmetro encontrado.");
                 return clParametro;
@@ -152,7 +152,7 @@ namespace UWP_JJCheckList.Models.Repositorios
                     return parametro;
                 }
 
-                if(parametro.PK_Parametro <= 0 && string.IsNullOrEmpty(parametro.Parametro))
+                if (parametro.PK_Parametro <= 0 && string.IsNullOrEmpty(parametro.Parametro))
                 {
                     parametro.ValidationResult = new ValidationResult("É necessário inserir algum ID ou Parametro.");
                     return parametro;
@@ -167,7 +167,7 @@ namespace UWP_JJCheckList.Models.Repositorios
                     .Where(x => x.PK_Parametro == parametro.PK_Parametro)
                     .FirstOrDefault();
                 }
-                else if(parametro.Parametro.Length > 0)
+                else if (parametro.Parametro.Length > 0)
                 {
                     cLParametroResultado = App.DBConnection
                     .Table<CLParametro>()
@@ -175,7 +175,7 @@ namespace UWP_JJCheckList.Models.Repositorios
                     .FirstOrDefault();
                 }
 
-                if(cLParametroResultado == null)
+                if (cLParametroResultado == null)
                 {
                     parametro.ValidationResult = new ValidationResult("Nenhum parâmetro encontrado.");
                     return parametro;

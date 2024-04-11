@@ -15,7 +15,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
-        
+
         <!-- Task -->
         <Grid 
             x:Name="gridTask" 

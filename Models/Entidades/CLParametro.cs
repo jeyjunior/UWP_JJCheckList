@@ -6,12 +6,13 @@ namespace UWP_JJCheckList.Models.Entidades
 {
     public class CLParametro
     {
-        [PrimaryKey][AutoIncrement]
+        [PrimaryKey]
+        [AutoIncrement]
         public int PK_Parametro { get; set; }
         [NotNull]
         public string Grupo { get; set; }
         [NotNull]
-        public string Parametro { get; set;}
+        public string Parametro { get; set; }
         [NotNull]
         public string Valor { get; set; }
         [Ignore]

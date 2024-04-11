@@ -62,7 +62,7 @@ namespace UWP_JJCheckList.Models.Repositorios
                     return -1;
                 }
 
-                var ultimoItem = await Task.Run(() => 
+                var ultimoItem = await Task.Run(() =>
                     App.DBConnection
                     .Table<CLTaskContent>()
                     .OrderByDescending(item => item.PK_CLTaskContent)
@@ -124,7 +124,7 @@ namespace UWP_JJCheckList.Models.Repositorios
                     return false;
                 }
 
-                var resultado = await Task.Run(() =>  App.DBConnection.Update(taskContent));
+                var resultado = await Task.Run(() => App.DBConnection.Update(taskContent));
 
                 if (resultado <= 0)
                 {

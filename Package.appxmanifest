@@ -7,11 +7,11 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="c6881c5e-e707-40d9-874e-e894aaf03170"
+    Name="8c1f82b8-924d-4cdd-8be6-f3c26639300f"
     Publisher="CN=jeyjr"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="c6881c5e-e707-40d9-874e-e894aaf03170" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="8c1f82b8-924d-4cdd-8be6-f3c26639300f" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>UWP_JJCheckList</DisplayName>
@@ -32,19 +32,13 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="UWP_JJCheckList.App">
       <uap:VisualElements
-        DisplayName="JJ CheckList"
+        DisplayName="UWP_JJCheckList"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="CheckList para organizar suas tarefas do dia a dia"
+        Description="UWP_JJCheckList"
         BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square310x310Logo="Assets\SplashScreen.png">
-          <uap:ShowNameOnTiles>
-            <uap:ShowOn Tile="square310x310Logo"/>
-          </uap:ShowNameOnTiles>
-        </uap:DefaultTile >
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
-        <uap:InitialRotationPreference>
-          <uap:Rotation Preference="portrait"/></uap:InitialRotationPreference>
       </uap:VisualElements>
     </Application>
   </Applications>

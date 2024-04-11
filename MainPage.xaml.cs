@@ -23,7 +23,6 @@ using UWP_JJCheckList.Models.Repositorios;
 using UWP_JJCheckList.Views.Task;
 using Windows.UI.ViewManagement;
 using Windows.ApplicationModel;
-
 namespace UWP_JJCheckList
 {
     public sealed partial class MainPage : Page, IMainPageManipularComponentes
@@ -39,7 +38,7 @@ namespace UWP_JJCheckList
         #endregion
 
         #region Views
-        private TaskSetup taskSetup;
+        private UWP_JJCheckList.Assets.TaskSetup taskSetup;
         #endregion
 
         #region Construtor
@@ -59,7 +58,7 @@ namespace UWP_JJCheckList
             CarregarParametros();
             CarregarTasks();
 
-            taskSetup = new TaskSetup(this);
+            taskSetup = new UWP_JJCheckList.Assets.TaskSetup(this);
 
             if (listViewConteudo.Items.Count > 0)
             {
@@ -187,7 +186,7 @@ namespace UWP_JJCheckList
                 CoreWindow.GetForCurrentThread().PointerCursor = new CoreCursor(CoreCursorType.Arrow, 1);
             }
         }
-        
+
         #endregion
 
         #region Métodos
@@ -238,7 +237,7 @@ namespace UWP_JJCheckList
 
                 foreach (var item in taskContentCollection)
                 {
-                    if(item == null)
+                    if (item == null)
                         continue;
 
                     var taskContent = new TaskContent(item, this);
@@ -284,7 +283,7 @@ namespace UWP_JJCheckList
                 pTituloPrincipal.Valor = this.txtTitulo.Text.Trim();
                 cLParametroRepositorio.Atualizar(pTituloPrincipal);
 
-                if(!pTituloPrincipal.IsValid)
+                if (!pTituloPrincipal.IsValid)
                 {
                     var msg = new ContentDialog { Title = "Erro", Content = pTituloPrincipal.ValidationResult.ErrorMessage, CloseButtonText = "OK" };
                     msg.ShowAsync();

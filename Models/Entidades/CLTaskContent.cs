@@ -10,7 +10,8 @@ namespace UWP_JJCheckList.Models.Entidades
 {
     public class CLTaskContent
     {
-        [PrimaryKey][AutoIncrement]
+        [PrimaryKey]
+        [AutoIncrement]
         public int PK_CLTaskContent { get; set; }
         [NotNull]
         public bool Checked { get; set; }
