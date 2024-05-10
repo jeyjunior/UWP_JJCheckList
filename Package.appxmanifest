@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="8c1f82b8-924d-4cdd-8be6-f3c26639300f"
-    Publisher="CN=jeyjr"
+    Name="JeyJr.246822AC91FA7"
+    Publisher="CN=53663670-79F2-45CB-8E00-C8EA1BF62707"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="8c1f82b8-924d-4cdd-8be6-f3c26639300f" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="2ef24445-64c7-43fa-9ef6-653cfffabee9" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>UWP_JJCheckList</DisplayName>
-    <PublisherDisplayName>jeyjr</PublisherDisplayName>
+    <DisplayName>JJCheckList</DisplayName>
+    <PublisherDisplayName>JeyJr</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -32,13 +32,15 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="UWP_JJCheckList.App">
       <uap:VisualElements
-        DisplayName="UWP_JJCheckList"
+        DisplayName="JJCheckList"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="UWP_JJCheckList"
+        Description="Desfrute de uma maneira simples, prática e eficaz de organizar suas tarefas diárias com nosso aplicativo. Nosso checklist intuitivo permite que você mantenha o controle de suas responsabilidades de forma fácil e eficiente. Simplifique sua rotina diária e aumente sua produtividade com nossa ferramenta acessível e de fácil utilização."
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="portrait"/></uap:InitialRotationPreference>
       </uap:VisualElements>
     </Application>
   </Applications>

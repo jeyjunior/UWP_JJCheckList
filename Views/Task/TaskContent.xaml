@@ -9,6 +9,7 @@
     Loaded="UserControl_Loaded" 
     Margin="0" Padding="0"
     d:DesignHeight="60" HorizontalAlignment="Stretch"
+    DoubleTapped="UserControl_DoubleTapped"
     d:DesignWidth="400">
 
     <Grid x:Name="gridPrincipal" Margin="0" HorizontalAlignment="Stretch"  Padding="0" Background="Transparent">
@@ -63,6 +64,7 @@
                 BorderBrush="Transparent"
                 HorizontalAlignment="Stretch"
                 TextWrapping="Wrap"
+                KeyDown="txtTarefa_KeyDown"
                 Visibility="Collapsed" LostFocus="txtTarefa_LostFocus"/>
 
             <Button 

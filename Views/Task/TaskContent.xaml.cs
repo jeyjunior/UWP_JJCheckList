@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.ServiceModel.Channels;
+using UWP_JJCheckList.Controls.Helpers;
 using UWP_JJCheckList.Models.Entidades;
 using UWP_JJCheckList.Models.Interfaces;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -51,21 +54,12 @@ namespace UWP_JJCheckList.Views.Task
         }
         private void txtTarefa_LostFocus(object sender, RoutedEventArgs e)
         {
-            this.txbTarefa.Text = this.txtTarefa.Text;
-
-            this.txbTarefa.Visibility = Visibility.Visible;
-            this.txtTarefa.Visibility = Visibility.Collapsed;
-
+            DesabilitarEdicao();
             AtualizarInformacoesBase();
         }
         private void txbTarefa_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            this.txbTarefa.Visibility = Visibility.Collapsed;
-            this.txtTarefa.Visibility = Visibility.Visible;
-
-            this.txtTarefa.Focus(FocusState.Programmatic);
-            this.txtTarefa.SelectionStart = this.txtTarefa.Text.Length;
-
+            HabilitarEdicao();
         }
         private void tgbTarefa_Checked(object sender, RoutedEventArgs e)
         {
@@ -81,14 +75,33 @@ namespace UWP_JJCheckList.Views.Task
         {
             Deletar();
         }
+        private void UserControl_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            HabilitarEdicao();
+        }
+        private void txtTarefa_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                DesabilitarEdicao();
+                AtualizarInformacoesBase();
+            }
+        }
         #endregion
 
         #region Métodos
         private void AtualizarInformacoesBase()
         {
-            clTaskContent.Tarefa = this.txtTarefa.Text;
-            clTaskContent.Checked = (bool)this.tgbTarefa.IsChecked;
-            cLTaskContentRepositorio.AtualizarAsync(clTaskContent);
+            try
+            {
+                clTaskContent.Tarefa = this.txtTarefa.Text;
+                clTaskContent.Checked = (bool)this.tgbTarefa.IsChecked;
+                cLTaskContentRepositorio.AtualizarAsync(clTaskContent);
+            }
+            catch (Exception ex)
+            {
+                Aviso.ContentDialog("Erro: " + ex.Message);
+            }
         }
         private void ExibirMensagemErro(string titulo, string conteudo)
         {
@@ -119,6 +132,22 @@ namespace UWP_JJCheckList.Views.Task
             }
 
             mainPageManipularComponentes.DeletarItem(this);
+        }
+        private void DesabilitarEdicao()
+        {
+            this.txbTarefa.Text = this.txtTarefa.Text;
+
+            this.txbTarefa.Visibility = Visibility.Visible;
+            this.txtTarefa.Visibility = Visibility.Collapsed;
+            this.Focus(FocusState.Programmatic);
+        }
+        private void HabilitarEdicao()
+        {
+            this.txbTarefa.Visibility = Visibility.Collapsed;
+            this.txtTarefa.Visibility = Visibility.Visible;
+
+            this.txtTarefa.Focus(FocusState.Programmatic);
+            this.txtTarefa.SelectionStart = this.txtTarefa.Text.Length;
         }
         #endregion
 
