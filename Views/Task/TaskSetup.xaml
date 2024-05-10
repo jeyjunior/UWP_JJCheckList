@@ -27,7 +27,8 @@
             <TextBox 
                 Grid.Row="1" 
                 x:Name="txtTarefa" 
-                Text="" 
+                Text=""
+                 KeyDown="txtTarefa_KeyDown"
                 TextWrapping="Wrap" 
                 MaxLength="120"/>
         </Grid>

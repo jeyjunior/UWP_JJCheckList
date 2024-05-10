@@ -42,11 +42,11 @@ namespace UWP_JJCheckList.Controls.Helpers
             return xmlDoc;
         }
 
-        public static async void ContentDialog(string mensagem)
+        public static async void ContentDialog(string titulo, string mensagem)
         {
             var dialog = new ContentDialog()
             {
-                Title = "Mensagem",
+                Title = titulo,
                 Content = mensagem,
                 CloseButtonText = "OK"
             };

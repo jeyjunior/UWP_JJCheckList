@@ -75,6 +75,17 @@ namespace UWP_JJCheckList
         }
 
         // Título
+        private void txtTitulo_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                this.txtTitulo.Visibility = Visibility.Collapsed;
+                this.txbTitulo.Visibility = Visibility.Visible;
+
+                SalvarTitulo();
+            }
+        }
+
         private void txbTitulo_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             this.txtTitulo.Visibility = Visibility.Visible;

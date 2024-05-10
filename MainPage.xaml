@@ -34,6 +34,7 @@
                 Foreground="#999999" 
                 BorderBrush="Transparent"
                 Visibility="Collapsed"
+                KeyDown="txtTitulo_KeyDown"
                 TextChanged="txtTitulo_TextChanged"
                 LostFocus="txtTitulo_LostFocus"/>
             <TextBlock 

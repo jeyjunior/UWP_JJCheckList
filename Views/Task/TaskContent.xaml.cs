@@ -100,7 +100,7 @@ namespace UWP_JJCheckList.Views.Task
             }
             catch (Exception ex)
             {
-                Aviso.ContentDialog("Erro: " + ex.Message);
+                Aviso.ContentDialog("Erro", ex.Message);
             }
         }
         private void ExibirMensagemErro(string titulo, string conteudo)
