@@ -7,6 +7,7 @@
     xmlns:Custom="using:System.Numerics"
     x:Class="UWP_JJCheckList.MainPage"
     mc:Ignorable="d" x:Name="pMainPage"
+    KeyDown="pMainPage_KeyDown"
     MinHeight="450" MinWidth="450" Loaded="MainPage_Loaded"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -77,6 +78,7 @@
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
                 BorderThickness="2"
+                ToolTipService.ToolTip="Marcar/Desmarcar tudo (Ctrl + Shift + C)"
                 Checked="chkAll_Checked"
                 Unchecked="chkAll_Unchecked" BorderBrush="#FFB9B9B9">
             </ToggleButton>
@@ -89,6 +91,7 @@
                 Background="Transparent" 
                 HorizontalAlignment="Stretch"  
                 VerticalAlignment="Stretch"
+                ToolTipService.ToolTip="Deletar tudo (CTRL + SHIFT + D)"
                 Click="btnDeletarAll_Click">
                 <Image Source="/Assets/Icons/24x/delete_white_fill.png"  Width="16" Height="16"/>
             </Button>
@@ -124,6 +127,7 @@
                 HorizontalAlignment="Stretch" 
                 VerticalAlignment="Stretch" 
                 Background="Transparent"
+                ToolTipService.ToolTip="Nova Tarefa (Ctrl + N)"
                 Click="btnAdd_Click">
                 <Image Source="/Assets/Icons/64x/add_white_64x.png" Height="60" Width="60"/>
             </Button>

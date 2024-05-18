@@ -23,6 +23,7 @@ using UWP_JJCheckList.Models.Repositorios;
 using UWP_JJCheckList.Views.Task;
 using Windows.UI.ViewManagement;
 using Windows.ApplicationModel;
+ 
 namespace UWP_JJCheckList
 {
     public sealed partial class MainPage : Page, IMainPageManipularComponentes
@@ -197,7 +198,49 @@ namespace UWP_JJCheckList
                 CoreWindow.GetForCurrentThread().PointerCursor = new CoreCursor(CoreCursorType.Arrow, 1);
             }
         }
+        private void pMainPage_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            bool ctrlPressed = (Window.Current.CoreWindow.GetKeyState(Windows.System.VirtualKey.Control) & CoreVirtualKeyStates.Down) == CoreVirtualKeyStates.Down;
+            bool shiftPressed = (Window.Current.CoreWindow.GetKeyState(Windows.System.VirtualKey.Shift) & CoreVirtualKeyStates.Down) == CoreVirtualKeyStates.Down;
 
+            // Nova tarefa
+            if (e.Key == Windows.System.VirtualKey.N)
+            {
+                if (ctrlPressed)
+                {
+                    btnAdd_Click(null, null);
+                    e.Handled = true; 
+                }
+            }
+            // Deletar Tudo
+            else if (e.Key == Windows.System.VirtualKey.D)
+            {
+                if (ctrlPressed && shiftPressed)
+                {
+                    btnDeletarAll_Click(null, null);
+                    e.Handled = true; 
+                }
+            }
+            // Concluir Tudo
+            else if (e.Key == Windows.System.VirtualKey.C)
+            {
+                if (ctrlPressed && shiftPressed)
+                {
+                    if(chkAll.IsChecked == true)
+                    {
+                        chkAll.IsChecked = false;
+                        chkAll_Unchecked(null, null);
+                    }
+                    else
+                    {
+                        chkAll.IsChecked = true;
+                        chkAll_Checked(null, null);
+                    }
+
+                    e.Handled = true;
+                }
+            }
+        }
         #endregion
 
         #region Métodos
