@@ -1,13 +1,12 @@
 ﻿using System.ServiceModel.Channels;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using UWP_JJCheckList.Controls.Helpers;
 using UWP_JJCheckList.Models.Entidades;
 using UWP_JJCheckList.Models.Interfaces;
 using UWP_JJCheckList.Models.Repositorios;
 using UWP_JJCheckList.Views.Task;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-
 
 namespace UWP_JJCheckList.Assets
 {
@@ -31,21 +30,26 @@ namespace UWP_JJCheckList.Assets
         #endregion
 
         #region Eventos
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void btnAdicionar_Click(object sender, RoutedEventArgs e)
         {
             AdicionarTarefa();
         }
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void btnCancelar_Click(object sender, RoutedEventArgs e)
         {
             Limpar();
         }
+        private void txtTarefa_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            btnAdicionar.Visibility = (this.txtTarefa.Text.Trim() == "") ? Visibility.Collapsed : Visibility.Visible;
+        }
         private void txtTarefa_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
-            if (e.Key == Windows.System.VirtualKey.Enter)
+            if (e.Key == Windows.System.VirtualKey.Enter && btnAdicionar.Visibility == Visibility.Visible)
             {
                 AdicionarTarefa();
                 this.Hide();
             }
+
         }
         #endregion
 
@@ -57,18 +61,32 @@ namespace UWP_JJCheckList.Assets
             taskContent.Tarefa = "";
             taskContent.Checked = false;
             taskContent.IndiceLista = 0;
+            this.btnAdicionar.Visibility = Visibility.Collapsed;
+            this.Hide();
         }
         private void AdicionarTarefa()
         {
+            bool salvarTarefa = false;
+
             try
             {
+
+                if (string.IsNullOrEmpty(this.txtTarefa.Text.Trim()))
+                {
+                    Aviso.Toast("É necessário inserir algum texto para a tarefa.");
+                    txtTarefa.Focus(FocusState.Programmatic);
+                    goto Sair;
+                }
+
                 taskContent.Tarefa = this.txtTarefa.Text;
                 taskContent.Checked = false;
                 taskContent.IndiceLista = 0;
 
                 this.mainPageManipularComponentes.AddNovoItem(taskContent);
-
+                salvarTarefa = true;
                 Limpar();
+
+                Sair:;
             }
             catch (System.Exception ex)
             {
@@ -76,7 +94,8 @@ namespace UWP_JJCheckList.Assets
             }
             finally
             {
-                this.Hide();
+                if (this.Visibility == Visibility.Visible && salvarTarefa)
+                    this.Hide();
             }
         }
         #endregion

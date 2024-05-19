@@ -8,30 +8,61 @@
     mc:Ignorable="d"
     Loaded="UserControl_Loaded" 
     Margin="0" Padding="0"
-    d:DesignHeight="60" HorizontalAlignment="Stretch"
+    d:DesignHeight="260" HorizontalAlignment="Stretch"
     DoubleTapped="UserControl_DoubleTapped"
     d:DesignWidth="400">
 
-    <Grid x:Name="gridPrincipal" Margin="0" HorizontalAlignment="Stretch"  Padding="0" Background="Transparent">
+    <Grid 
+        x:Name="gridPrincipal" 
+        Margin="0" 
+        HorizontalAlignment="Stretch"  
+        Padding="0" 
+        Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
+            <RowDefinition Height="200"/>
         </Grid.RowDefinitions>
 
         <!-- Task -->
         <Grid 
+            Grid.Row="0"
             x:Name="gridTask" 
-            Margin="16,0,16,0" 
+            Margin="12,0,12,0" 
             Padding="0" 
             Background="Transparent">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="6"/>
                 <ColumnDefinition Width="20"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="40"/>
             </Grid.ColumnDefinitions>
 
+            <Button
+                x:Name="btnNotepad"
+                Grid.Column="0"
+                Width="20"
+                Height="20"
+                CornerRadius="6" 
+                Background="Transparent" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center" 
+                Margin="0" 
+                Click="btnNotepad_Click"
+                Padding="0">
+                <Image 
+                    Source="/Assets/Icons/24x/arrow_white.png" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" 
+                    RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <CompositeTransform Rotation="0"/>
+                    </Image.RenderTransform>
+                </Image>
+            </Button>
             <ToggleButton 
                 x:Name="tgbTarefa"
-                Grid.Column="0" 
+                Grid.Column="2" 
                 Content="" 
                 HorizontalAlignment="Center" 
                 Width="18" Height="18"
@@ -42,7 +73,7 @@
 
             <TextBlock 
                 x:Name="txbTarefa"
-                Grid.Column="1" 
+                Grid.Column="3" 
                 Text="Testestestestestes" 
                 VerticalAlignment="Center"
                 TextAlignment="Start"
@@ -54,7 +85,7 @@
                 DoubleTapped="txbTarefa_DoubleTapped" />
             <TextBox
                 x:Name="txtTarefa"
-                Grid.Column="1" 
+                Grid.Column="3" 
                 Text="adsasdasdas asd asd sa" 
                 VerticalAlignment="Center"
                 TextAlignment="Start"
@@ -68,7 +99,7 @@
                 Visibility="Collapsed" LostFocus="txtTarefa_LostFocus"/>
 
             <Button 
-                Grid.Column="3" 
+                Grid.Column="4" 
                 x:Name="btnDeletar" 
                 CornerRadius="6" 
                 Background="Transparent" 
@@ -87,5 +118,24 @@
                     VerticalAlignment="Center"/>
             </Button>
         </Grid>
+   
+        <!-- Notepad -->
+        <TextBox
+            x:Name="txtNotepad"
+            Grid.Row="1"
+            Text=""
+            VerticalAlignment="Stretch"
+            TextAlignment="Start"
+            Margin="0"
+            Padding="6"
+            Background="#414141"
+            Foreground="White"
+            BorderBrush="Transparent"
+            HorizontalAlignment="Stretch"
+            TextWrapping="Wrap"
+            AcceptsReturn="True"
+            MaxLength="2000"
+            KeyDown="TxtNotepad_KeyDown"/>
+
     </Grid>
 </UserControl>

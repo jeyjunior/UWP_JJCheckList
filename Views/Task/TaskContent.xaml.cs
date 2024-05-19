@@ -9,7 +9,9 @@ using UWP_JJCheckList.Models.Entidades;
 using UWP_JJCheckList.Models.Interfaces;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -30,6 +32,7 @@ namespace UWP_JJCheckList.Views.Task
         #region Propriedades
         private IMainPageManipularComponentes mainPageManipularComponentes;
         private CLTaskContent clTaskContent { get; set; }
+        private bool abrirNotepad = false;
         #endregion
 
         #region Método Construtor
@@ -51,6 +54,7 @@ namespace UWP_JJCheckList.Views.Task
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             AtualizarCorTextos();
+            gridPrincipal.RowDefinitions[1].Height = new GridLength(0);
         }
         private void txtTarefa_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -85,6 +89,41 @@ namespace UWP_JJCheckList.Views.Task
             {
                 DesabilitarEdicao();
                 AtualizarInformacoesBase();
+            }
+        }
+        private void btnNotepad_Click(object sender, RoutedEventArgs e)
+        {
+            if (btnNotepad.Content == null)
+                return;
+
+            Image img = btnNotepad.Content as Image;
+
+            if (img == null)
+                return;
+
+            CompositeTransform ct = img.RenderTransform as CompositeTransform;
+
+            if (abrirNotepad == false)
+            {
+                ct.Rotation = 90;
+                abrirNotepad = true;
+                gridPrincipal.RowDefinitions[1].Height = new GridLength(200);
+            }
+            else
+            {
+                ct.Rotation = 0;
+                abrirNotepad = false;
+                gridPrincipal.RowDefinitions[1].Height = new GridLength(0);
+            }
+        }
+        private void TxtNotepad_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Tab)
+            {
+                int caretIndex = txtNotepad.SelectionStart;
+                txtNotepad.Text = txtNotepad.Text.Insert(caretIndex, "\t");
+                txtNotepad.SelectionStart = caretIndex + 1;
+                e.Handled = true;
             }
         }
         #endregion
@@ -149,6 +188,7 @@ namespace UWP_JJCheckList.Views.Task
             this.txtTarefa.Focus(FocusState.Programmatic);
             this.txtTarefa.SelectionStart = this.txtTarefa.Text.Length;
         }
+        
         #endregion
 
         #region Métodos Público

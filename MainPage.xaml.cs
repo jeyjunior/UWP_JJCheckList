@@ -86,7 +86,6 @@ namespace UWP_JJCheckList
                 SalvarTitulo();
             }
         }
-
         private void txbTitulo_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             this.txtTitulo.Visibility = Visibility.Visible;
