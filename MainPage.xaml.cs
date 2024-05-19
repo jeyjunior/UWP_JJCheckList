@@ -211,35 +211,51 @@ namespace UWP_JJCheckList
                     e.Handled = true; 
                 }
             }
-            // Deletar Tudo
-            else if (e.Key == Windows.System.VirtualKey.D)
-            {
-                if (ctrlPressed && shiftPressed)
-                {
-                    btnDeletarAll_Click(null, null);
-                    e.Handled = true; 
-                }
-            }
-            // Concluir Tudo
-            else if (e.Key == Windows.System.VirtualKey.C)
-            {
-                if (ctrlPressed && shiftPressed)
-                {
-                    if(chkAll.IsChecked == true)
-                    {
-                        chkAll.IsChecked = false;
-                        chkAll_Unchecked(null, null);
-                    }
-                    else
-                    {
-                        chkAll.IsChecked = true;
-                        chkAll_Checked(null, null);
-                    }
 
-                    e.Handled = true;
+            // Deletar Tudo
+            if (e.Key == Windows.System.VirtualKey.D && ctrlPressed && shiftPressed)
+            {
+                btnDeletarAll_Click(null, null);
+                e.Handled = true;
+            }
+
+            // Concluir Tudo
+            if (e.Key == Windows.System.VirtualKey.C && ctrlPressed && shiftPressed)
+            {
+                if (chkAll.IsChecked == true)
+                {
+                    chkAll.IsChecked = false;
+                    chkAll_Unchecked(null, null);
+                }
+                else
+                {
+                    chkAll.IsChecked = true;
+                    chkAll_Checked(null, null);
+                }
+
+                e.Handled = true;
+            }
+        }
+        private void listViewConteudo_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (listViewConteudo.SelectedItem is ITaskContentManipularComponentes task && task != null)
+            {
+                bool ctrlPressed = (Window.Current.CoreWindow.GetKeyState(Windows.System.VirtualKey.Control) & CoreVirtualKeyStates.Down) == CoreVirtualKeyStates.Down;
+
+                // Abrir Notepad
+                if (e.Key == Windows.System.VirtualKey.E && ctrlPressed)
+                {
+                    task.AbrirNotepad();
+                }
+
+                // Deletar Item
+                if (e.Key == Windows.System.VirtualKey.Delete)
+                {
+                    task.DeletarItem();
                 }
             }
         }
+
         #endregion
 
         #region Métodos
@@ -387,5 +403,6 @@ namespace UWP_JJCheckList
             AtualizarContador();
         }
         #endregion
+
     }
 }

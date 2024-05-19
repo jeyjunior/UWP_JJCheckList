@@ -81,6 +81,7 @@ namespace UWP_JJCheckList.Assets
                 taskContent.Tarefa = this.txtTarefa.Text;
                 taskContent.Checked = false;
                 taskContent.IndiceLista = 0;
+                taskContent.Notepad = "";
 
                 this.mainPageManipularComponentes.AddNovoItem(taskContent);
                 salvarTarefa = true;

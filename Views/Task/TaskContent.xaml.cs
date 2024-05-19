@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.ServiceModel.Channels;
+using UWP_JJCheckList.Controls;
 using UWP_JJCheckList.Controls.Helpers;
 using UWP_JJCheckList.Models.Entidades;
 using UWP_JJCheckList.Models.Interfaces;
@@ -29,6 +30,7 @@ namespace UWP_JJCheckList.Views.Task
         #region Interfaces
         private readonly ICLTaskContentRepositorio cLTaskContentRepositorio;
         #endregion
+
         #region Propriedades
         private IMainPageManipularComponentes mainPageManipularComponentes;
         private CLTaskContent clTaskContent { get; set; }
@@ -44,36 +46,28 @@ namespace UWP_JJCheckList.Views.Task
             this.mainPageManipularComponentes = mainPageManipularComponentes;
             cLTaskContentRepositorio = App.Container.GetInstance<ICLTaskContentRepositorio>();
 
-            this.txtTarefa.Text = clTaskContent.Tarefa;
-            this.txbTarefa.Text = clTaskContent.Tarefa;
             this.tgbTarefa.IsChecked = clTaskContent.Checked;
+            this.txtTarefa.Text = clTaskContent.Tarefa;
+            this.txtNotepad.Text = clTaskContent.Notepad;
         }
         #endregion
 
         #region Eventos
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            AtualizarCorTextos();
             gridPrincipal.RowDefinitions[1].Height = new GridLength(0);
         }
         private void txtTarefa_LostFocus(object sender, RoutedEventArgs e)
         {
-            DesabilitarEdicao();
             AtualizarInformacoesBase();
-        }
-        private void txbTarefa_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-            HabilitarEdicao();
         }
         private void tgbTarefa_Checked(object sender, RoutedEventArgs e)
         {
             AtualizarInformacoesBase();
-            AtualizarCorTextos();
         }
         private void tgbTarefa_Unchecked(object sender, RoutedEventArgs e)
         {
             AtualizarInformacoesBase();
-            AtualizarCorTextos();
         }
         private void btnDeletar_Click(object sender, RoutedEventArgs e)
         {
@@ -81,18 +75,20 @@ namespace UWP_JJCheckList.Views.Task
         }
         private void UserControl_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            HabilitarEdicao();
+            this.txtTarefa.Focus(FocusState.Pointer);
         }
         private void txtTarefa_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == Windows.System.VirtualKey.Enter)
+            if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Tab)
             {
-                DesabilitarEdicao();
                 AtualizarInformacoesBase();
             }
         }
         private void btnNotepad_Click(object sender, RoutedEventArgs e)
         {
+            if (this.btnNotepad.FocusState == FocusState.Unfocused)
+                this.btnNotepad.Focus(FocusState.Programmatic);
+
             if (btnNotepad.Content == null)
                 return;
 
@@ -118,13 +114,17 @@ namespace UWP_JJCheckList.Views.Task
         }
         private void TxtNotepad_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == Windows.System.VirtualKey.Tab)
-            {
-                int caretIndex = txtNotepad.SelectionStart;
-                txtNotepad.Text = txtNotepad.Text.Insert(caretIndex, "\t");
-                txtNotepad.SelectionStart = caretIndex + 1;
-                e.Handled = true;
-            }
+            //if (e.Key == Windows.System.VirtualKey.Tab)
+            //{
+            //    int caretIndex = txtNotepad.SelectionStart;
+            //    txtNotepad.Text = txtNotepad.Text.Insert(caretIndex, "\t");
+            //    txtNotepad.SelectionStart = caretIndex + 1;
+            //    e.Handled = true;
+            //}
+        }
+        private void txtNotepad_LostFocus(object sender, RoutedEventArgs e)
+        {
+            AtualizarInformacoesBase();
         }
         #endregion
 
@@ -135,6 +135,7 @@ namespace UWP_JJCheckList.Views.Task
             {
                 clTaskContent.Tarefa = this.txtTarefa.Text;
                 clTaskContent.Checked = (bool)this.tgbTarefa.IsChecked;
+                clTaskContent.Notepad = this.txtNotepad.Text;
                 cLTaskContentRepositorio.AtualizarAsync(clTaskContent);
             }
             catch (Exception ex)
@@ -146,19 +147,6 @@ namespace UWP_JJCheckList.Views.Task
         {
             var msg = new ContentDialog { Title = titulo, Content = conteudo, CloseButtonText = "OK" };
             msg.ShowAsync();
-        }
-        private void AtualizarCorTextos()
-        {
-            if (this.clTaskContent.Checked)
-            {
-                Color cor = (Color)XamlBindingHelper.ConvertValue(typeof(Color), "#666666");
-                this.txbTarefa.Foreground = new SolidColorBrush(cor);
-            }
-            else
-            {
-                Color cor = (Color)XamlBindingHelper.ConvertValue(typeof(Color), "#F2F2F2");
-                this.txbTarefa.Foreground = new SolidColorBrush(cor);
-            }
         }
         private void Deletar()
         {
@@ -172,23 +160,6 @@ namespace UWP_JJCheckList.Views.Task
 
             mainPageManipularComponentes.DeletarItem(this);
         }
-        private void DesabilitarEdicao()
-        {
-            this.txbTarefa.Text = this.txtTarefa.Text;
-
-            this.txbTarefa.Visibility = Visibility.Visible;
-            this.txtTarefa.Visibility = Visibility.Collapsed;
-            this.Focus(FocusState.Programmatic);
-        }
-        private void HabilitarEdicao()
-        {
-            this.txbTarefa.Visibility = Visibility.Collapsed;
-            this.txtTarefa.Visibility = Visibility.Visible;
-
-            this.txtTarefa.Focus(FocusState.Programmatic);
-            this.txtTarefa.SelectionStart = this.txtTarefa.Text.Length;
-        }
-        
         #endregion
 
         #region Métodos Público
@@ -212,6 +183,11 @@ namespace UWP_JJCheckList.Views.Task
         {
             this.clTaskContent.IndiceLista = indice;
         }
+        public void AbrirNotepad()
+        {
+            btnNotepad_Click(null, null);
+        }
         #endregion
     }
 }
+

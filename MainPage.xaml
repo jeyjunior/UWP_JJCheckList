@@ -103,7 +103,7 @@
             Margin="0" 
             Background="#292929" 
             SelectionMode="Single"
-            
+            KeyDown="listViewConteudo_KeyDown"
             x:Name="listViewConteudo">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">

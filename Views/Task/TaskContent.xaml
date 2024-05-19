@@ -48,6 +48,7 @@
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Center" 
                 Margin="0" 
+                TabIndex="0"
                 Click="btnNotepad_Click"
                 Padding="0">
                 <Image 
@@ -67,36 +68,26 @@
                 HorizontalAlignment="Center" 
                 Width="18" Height="18"
                 Margin="0" Padding="0"
+                TabIndex="1"
                 Checked="tgbTarefa_Checked"
                 Unchecked="tgbTarefa_Unchecked"
                 Background="#FFCECECE"/>
 
-            <TextBlock 
-                x:Name="txbTarefa"
-                Grid.Column="3" 
-                Text="Testestestestestes" 
-                VerticalAlignment="Center"
-                TextAlignment="Start"
-                Margin="12,0,12,0"
-                Padding="5,0,0,0"
-                HorizontalAlignment="Stretch"
-                Visibility="Visible"
-                TextWrapping="Wrap" 
-                DoubleTapped="txbTarefa_DoubleTapped" />
             <TextBox
                 x:Name="txtTarefa"
                 Grid.Column="3" 
                 Text="adsasdasdas asd asd sa" 
                 VerticalAlignment="Center"
-                TextAlignment="Start"
+                TextAlignment="Left"
                 Margin="12,0,12,0"
                 Padding="0"
                 Background="Transparent"
                 BorderBrush="Transparent"
                 HorizontalAlignment="Stretch"
                 TextWrapping="Wrap"
+                TabIndex="2"
                 KeyDown="txtTarefa_KeyDown"
-                Visibility="Collapsed" LostFocus="txtTarefa_LostFocus"/>
+                LostFocus="txtTarefa_LostFocus"/>
 
             <Button 
                 Grid.Column="4" 
@@ -108,6 +99,7 @@
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Center" 
                 Margin="0" 
+                TabIndex="3"
                 Click="btnDeletar_Click"
                 Padding="0">
                 <Image 
@@ -133,9 +125,11 @@
             BorderBrush="Transparent"
             HorizontalAlignment="Stretch"
             TextWrapping="Wrap"
+            TabIndex="4"
             AcceptsReturn="True"
             MaxLength="2000"
-            KeyDown="TxtNotepad_KeyDown"/>
+            KeyDown="TxtNotepad_KeyDown"
+            LostFocus="txtNotepad_LostFocus"/>
 
     </Grid>
 </UserControl>
