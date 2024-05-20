@@ -21,12 +21,12 @@
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <AppxPackageDir>C:\Users\jeyjr\OneDrive\Área de Trabalho\Pacotes\</AppxPackageDir>
+    <AppxPackageDir>C:\Users\jeyjr\OneDrive\Área de Trabalho\Pacotes\UWP_JJCheckList_1.1\</AppxPackageDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -133,7 +133,9 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Entidades\CLParametro.cs" />
+    <Compile Include="Models\Entidades\CLTaskColor.cs" />
     <Compile Include="Models\Entidades\CLTaskContent.cs" />
+    <Compile Include="Models\Entidades\CLTaskGroup.cs" />
     <Compile Include="Models\Interfaces\ICLParametroRepositorio.cs" />
     <Compile Include="Models\Interfaces\ICLTaskContentRepositorio.cs" />
     <Compile Include="Models\Interfaces\IMainPageManipularComponentes.cs" />

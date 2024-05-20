@@ -6,22 +6,18 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using SQLite;
 
+
 namespace UWP_JJCheckList.Models.Entidades
 {
-    public class CLTaskContent
+    public class CLTaskGroup
     {
         [PrimaryKey]
         [AutoIncrement]
-        public int PK_CLTaskContent { get; set; }
+        public int PK_CLTaskGroup { get; set; }
         [NotNull]
-        public bool Checked { get; set; }
+        public string GroupName { get; set; }
         [NotNull]
-        public string Tarefa { get; set; }
-        [NotNull]
-        public string Notepad { get; set; }
-        [NotNull]
-        public int FK_CLTaskGroup { get; set; }
-
+        public int FK_CLTaskColor { get; set; }
         [Ignore]
         public ValidationResult ValidationResult { get; set; }
         [Ignore]
@@ -33,26 +29,22 @@ namespace UWP_JJCheckList.Models.Entidades
             else if (ValidationResult.ErrorMessage.Count() == 0)
                 return true;
 
-            if (PK_CLTaskContent <= 0)
-            {
-                ValidationResult = new ValidationResult("O ID da tarefa é obrigatório.");
-                return false;
-            }
-            else if (Tarefa == null)
-            {
-                ValidationResult = new ValidationResult("A tarefa é obrigatório.");
-                return false;
-            }
-            else if (Notepad == null)
-            {
-                ValidationResult = new ValidationResult("O bloco de notas é obrigatório.");
-                return false;
-            }
-            else if (FK_CLTaskGroup <= 0)
+            if (PK_CLTaskGroup <= 0)
             {
                 ValidationResult = new ValidationResult("O ID do grupo é obrigatório.");
                 return false;
             }
+            else if (string.IsNullOrEmpty(GroupName))
+            {
+                ValidationResult = new ValidationResult("O nome do grupo é obrigatório.");
+                return false;
+            }
+            else if (FK_CLTaskColor <= 0)
+            {
+                ValidationResult = new ValidationResult("O código da cor é obrigatório.");
+                return false;
+            }
+
             return false;
         }
     }
