@@ -19,14 +19,19 @@ namespace UWP_JJCheckList.Models.Repositorios
                 if (taskContent == null)
                     return -1;
 
+                App.DBConnection.BeginTransaction();
 
                 var resultado = App.DBConnection.Insert(taskContent);
 
                 if (resultado <= 0)
                 {
+                    App.DBConnection.Rollback();
                     taskContent.ValidationResult = new ValidationResult("Não foi possível registrar a tarefa na base de dados.");
                     return -1;
                 }
+                else
+                    App.DBConnection.Commit();
+
 
                 var ultimoItem = App.DBConnection.Table<CLTaskContent>()
                     .OrderByDescending(item => item.PK_CLTaskContent)
@@ -42,6 +47,7 @@ namespace UWP_JJCheckList.Models.Repositorios
             }
             catch (Exception ex)
             {
+                App.DBConnection.Rollback();
                 taskContent.ValidationResult = new ValidationResult(ex.Message);
                 return -1;
             }
@@ -53,14 +59,17 @@ namespace UWP_JJCheckList.Models.Repositorios
                 if (taskContent == null)
                     return -1;
 
-
+                App.DBConnection.BeginTransaction();
                 var resultado = await Task.Run(() => App.DBConnection.Insert(taskContent));
 
                 if (resultado <= 0)
                 {
+                    App.DBConnection.Rollback();
                     taskContent.ValidationResult = new ValidationResult("Não foi possível registrar a tarefa na base de dados.");
                     return -1;
                 }
+                else
+                    App.DBConnection.Commit();
 
                 var ultimoItem = await Task.Run(() =>
                     App.DBConnection
@@ -78,6 +87,7 @@ namespace UWP_JJCheckList.Models.Repositorios
             }
             catch (Exception ex)
             {
+                App.DBConnection.Rollback();
                 taskContent.ValidationResult = new ValidationResult(ex.Message);
                 return -1;
             }
@@ -95,18 +105,23 @@ namespace UWP_JJCheckList.Models.Repositorios
                     return false;
                 }
 
+                App.DBConnection.BeginTransaction();
                 var resultado = App.DBConnection.Update(taskContent);
 
                 if (resultado <= 0)
                 {
+                    App.DBConnection.Rollback();
                     taskContent.ValidationResult = new ValidationResult("Não foi possível atualizar a tarefa na base de dados!");
                     return false;
                 }
+                else
+                    App.DBConnection.Commit();
 
                 return true;
             }
             catch (Exception ex)
             {
+                App.DBConnection.Rollback();
                 taskContent.ValidationResult = new ValidationResult(ex.Message);
                 return false;
             }
@@ -124,18 +139,23 @@ namespace UWP_JJCheckList.Models.Repositorios
                     return false;
                 }
 
+                App.DBConnection.BeginTransaction();
                 var resultado = await Task.Run(() => App.DBConnection.Update(taskContent));
 
                 if (resultado <= 0)
                 {
+                    App.DBConnection.Rollback();
                     taskContent.ValidationResult = new ValidationResult("Não foi possível atualizar a tarefa na base de dados!");
                     return false;
                 }
+                else
+                    App.DBConnection.Commit();
 
                 return true;
             }
             catch (Exception ex)
             {
+                App.DBConnection.Rollback();
                 taskContent.ValidationResult = new ValidationResult(ex.Message);
                 return false;
             }
@@ -278,18 +298,24 @@ namespace UWP_JJCheckList.Models.Repositorios
                     return false;
                 }
 
+                App.DBConnection.BeginTransaction();
                 var taskContentResultado = App.DBConnection.Delete(taskContent);
 
                 if (taskContentResultado < 0)
                 {
+                    App.DBConnection.Rollback();
                     taskContent.ValidationResult = new ValidationResult("Falha ao tentar deletar tarefa.");
                     return false;
                 }
+                else
+                    App.DBConnection.Commit();
 
                 return true;
             }
             catch (Exception ex)
             {
+                App.DBConnection.Rollback();
+
                 taskContent = new CLTaskContent
                 {
                     ValidationResult = new ValidationResult(ex.Message),
@@ -311,18 +337,25 @@ namespace UWP_JJCheckList.Models.Repositorios
                     return false;
                 }
 
+                App.DBConnection.BeginTransaction();
+
                 var taskContentResultado = await Task.Run(() => App.DBConnection.Delete(taskContent));
 
                 if (taskContentResultado < 0)
                 {
+                    App.DBConnection.Rollback();
                     taskContent.ValidationResult = new ValidationResult("Falha ao tentar deletar tarefa.");
                     return false;
                 }
+                else
+                    App.DBConnection.Commit();
 
                 return true;
             }
             catch (Exception ex)
             {
+                App.DBConnection.Rollback();
+
                 taskContent = new CLTaskContent
                 {
                     ValidationResult = new ValidationResult(ex.Message),

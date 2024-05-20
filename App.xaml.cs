@@ -121,14 +121,21 @@ namespace UWP_JJCheckList
             try
             {
                 string dbPath = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "DBCheckList.db");
-                DBConnection = new SQLiteConnection(dbPath);
+                    DBConnection = new SQLiteConnection(dbPath);
 
+                DBConnection.BeginTransaction();
                 //Tabelas
                 DBConnection.CreateTable<CLParametro>();
                 DBConnection.CreateTable<CLTaskContent>();
+                DBConnection.CreateTable<CLTaskColor>();
+                DBConnection.CreateTable<CLTaskGroup>();
+
+                DBConnection.Commit();
             }
             catch (Exception ex)
             {
+                DBConnection.Rollback();
+
                 var msg = new ContentDialog
                 {
                     Title = "Erro",

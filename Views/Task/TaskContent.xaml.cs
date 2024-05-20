@@ -181,7 +181,7 @@ namespace UWP_JJCheckList.Views.Task
         }
         public void DefinirIndice(int indice)
         {
-            this.clTaskContent.IndiceLista = indice;
+            //this.clTaskContent.IndiceLista = indice;
         }
         public void AbrirNotepad()
         {

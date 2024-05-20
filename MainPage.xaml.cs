@@ -376,7 +376,6 @@ namespace UWP_JJCheckList
             this.listViewConteudo.Items.Add(taskContent);
 
             int indice = this.listViewConteudo.Items.IndexOf(taskContent);
-            clTaskContent.IndiceLista = indice;
 
             var taskResult = Task.Run(() => cLTaskContentRepositorio.InserirAsync(clTaskContent));
 

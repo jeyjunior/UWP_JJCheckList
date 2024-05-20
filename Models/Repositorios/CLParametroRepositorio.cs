@@ -42,13 +42,19 @@ namespace UWP_JJCheckList.Models.Repositorios
                     return -1;
                 }
 
+                App.DBConnection.BeginTransaction();
                 var resultado = App.DBConnection.Insert(cLParametro);
 
                 if (resultado == null)
                 {
+                    App.DBConnection.Rollback();
                     cLParametro.ValidationResult = new ValidationResult("Não foi possível registrar o parâmetro na base de dados.");
                     return -1;
                 }
+                else
+                    App.DBConnection.Commit();
+
+
 
                 var cLParametroRegistrado = App.DBConnection.Table<CLParametro>()
                     .Where(i => i.Parametro == cLParametro.Parametro && i.Grupo == cLParametro.Grupo && i.Valor == cLParametro.Valor)
@@ -64,6 +70,7 @@ namespace UWP_JJCheckList.Models.Repositorios
             }
             catch (Exception ex)
             {
+                App.DBConnection.Rollback();
                 cLParametro.ValidationResult = new ValidationResult(ex.Message);
             }
 
@@ -83,16 +90,22 @@ namespace UWP_JJCheckList.Models.Repositorios
                     return false;
                 }
 
+                App.DBConnection.BeginTransaction();
                 var resultado = App.DBConnection.Update(cLParametro);
 
                 if (resultado <= 0)
                 {
+                    App.DBConnection.Rollback();
                     cLParametro.ValidationResult = new ValidationResult("Não foi possível atualizar o parâmetro na base de dados!");
                     return false;
                 }
+                else
+                    App.DBConnection.Commit();
+
             }
             catch (Exception ex)
             {
+                App.DBConnection.Rollback();
                 cLParametro.ValidationResult = new ValidationResult(ex.Message);
             }
 

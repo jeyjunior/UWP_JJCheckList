@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using SQLite;
 
-
 namespace UWP_JJCheckList.Models.Entidades
 {
     public class CLTaskColor
