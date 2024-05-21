@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using SQLite;
+using UWP_JJCheckList.Models.Interfaces;
 
 namespace UWP_JJCheckList.Models.Entidades
 {
-    public class CLTaskGroup
+    public class CLTaskGroup 
     {
         [PrimaryKey]
         [AutoIncrement]

@@ -113,6 +113,8 @@ namespace UWP_JJCheckList
 
             Container.Register<ICLParametroRepositorio, CLParametroRepositorio>();
             Container.Register<ICLTaskContentRepositorio, CLTaskContentRepositorio>();
+            Container.Register<ICLTaskGroupRepositorio, CLTaskGroupRepositorio>();
+            Container.Register<ICLTaskColorRepositorio, CLTaskColorRepositorio>();
 
             Container.Verify();
         }
@@ -171,11 +173,20 @@ namespace UWP_JJCheckList
                 };
 
 
+                DBConnection.BeginTransaction();
                 DBConnection.Insert(pTituloPrincipal);
                 DBConnection.Insert(pTituloPrincipalFontSize);
+                DBConnection.Commit();
+
+                // CORES INICIAIS
+                var cLTaskColor = App.Container.GetInstance<ICLTaskColorRepositorio>();
+                cLTaskColor.InserirCoresPadrao();
+
+                var cores = DBConnection.Table<CLTaskColor>();
             }
             catch (Exception ex)
             {
+                DBConnection.Rollback();
                 var msg = new ContentDialog { Title = "Erro", Content = ex.Message, CloseButtonText = "OK" };
                 msg.ShowAsync();
             }

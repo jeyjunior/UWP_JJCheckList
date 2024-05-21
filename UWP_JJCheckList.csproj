@@ -137,12 +137,15 @@
     <Compile Include="Models\Entidades\CLTaskContent.cs" />
     <Compile Include="Models\Entidades\CLTaskGroup.cs" />
     <Compile Include="Models\Interfaces\ICLParametroRepositorio.cs" />
+    <Compile Include="Models\Interfaces\ICLTaskColorRepositorio.cs" />
     <Compile Include="Models\Interfaces\ICLTaskContentRepositorio.cs" />
+    <Compile Include="Models\Interfaces\ICLTaskGroupRepositorio.cs" />
     <Compile Include="Models\Interfaces\IMainPageManipularComponentes.cs" />
     <Compile Include="Models\Interfaces\ITaskContentManipularComponentes.cs" />
     <Compile Include="Models\Repositorios\CLParametroRepositorio.cs" />
     <Compile Include="Models\Repositorios\CLTaskColorRepositorio.cs" />
     <Compile Include="Models\Repositorios\CLTaskContentRepositorio.cs" />
+    <Compile Include="Models\Repositorios\CLTaskGroupRepositorio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Task\TaskContent.xaml.cs">
       <DependentUpon>TaskContent.xaml</DependentUpon>
