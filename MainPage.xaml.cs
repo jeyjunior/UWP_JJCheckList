@@ -29,8 +29,8 @@ namespace UWP_JJCheckList
     public sealed partial class MainPage : Page, IMainPageManipularComponentes
     {
         #region Interfaces
-        private readonly ICLParametroRepositorio cLParametroRepositorio;
-        private readonly ICLTaskContentRepositorio cLTaskContentRepositorio;
+        private readonly ICLParametroRepository cLParametroRepositorio;
+        private readonly ICLTaskContentRepository cLTaskContentRepositorio;
         #endregion
 
         #region Propriedades
@@ -47,8 +47,8 @@ namespace UWP_JJCheckList
         {
             this.InitializeComponent();
 
-            cLParametroRepositorio = App.Container.GetInstance<ICLParametroRepositorio>();
-            cLTaskContentRepositorio = App.Container.GetInstance<ICLTaskContentRepositorio>();
+            cLParametroRepositorio = App.Container.GetInstance<ICLParametroRepository>();
+            cLTaskContentRepositorio = App.Container.GetInstance<ICLTaskContentRepository>();
         }
         #endregion
 
@@ -318,7 +318,6 @@ namespace UWP_JJCheckList
             }
             catch (Exception)
             {
-
                 throw;
             }
         }

@@ -28,7 +28,8 @@ namespace UWP_JJCheckList.Views.Task
     public sealed partial class TaskContent : UserControl, ITaskContentManipularComponentes
     {
         #region Interfaces
-        private readonly ICLTaskContentRepositorio cLTaskContentRepositorio;
+        private readonly ICLTaskContentRepository cLTaskContentRepositorio;
+        private readonly ICLTaskColorRepository cLTaskColorRepositorio;
         #endregion
 
         #region Propriedades
@@ -44,7 +45,9 @@ namespace UWP_JJCheckList.Views.Task
 
             this.clTaskContent = clTaskContent;
             this.mainPageManipularComponentes = mainPageManipularComponentes;
-            cLTaskContentRepositorio = App.Container.GetInstance<ICLTaskContentRepositorio>();
+
+            cLTaskContentRepositorio = App.Container.GetInstance<ICLTaskContentRepository>();
+            cLTaskColorRepositorio = App.Container.GetInstance<ICLTaskColorRepository>();
 
             this.tgbTarefa.IsChecked = clTaskContent.Checked;
             this.txtTarefa.Text = clTaskContent.Tarefa;
@@ -55,6 +58,7 @@ namespace UWP_JJCheckList.Views.Task
         #region Eventos
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            CarregarCorDoGrupo();
             gridPrincipal.RowDefinitions[1].Height = new GridLength(0);
         }
         private void txtTarefa_LostFocus(object sender, RoutedEventArgs e)
@@ -159,6 +163,11 @@ namespace UWP_JJCheckList.Views.Task
             }
 
             mainPageManipularComponentes.DeletarItem(this);
+        }
+
+        private void CarregarCorDoGrupo()
+        {
+            this.fColor.Background = cLTaskColorRepositorio.ObterCorGrupo(clTaskContent);
         }
         #endregion
 

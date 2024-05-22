@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace UWP_JJCheckList.Models.Repositorios
 {
-    public class CLParametroRepositorio : ICLParametroRepositorio
+    public class CLParametroRepository : ICLParametroRepository
     {
         public int Inserir(CLParametro cLParametro)
         {

@@ -7,14 +7,14 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="JeyJr.246822AC91FA7"
+    Name="JeyJr.TaskOrganizerX"
     Publisher="CN=53663670-79F2-45CB-8E00-C8EA1BF62707"
-    Version="1.1.4.0" />
+    Version="1.0.5.0" />
 
-  <mp:PhoneIdentity PhoneProductId="2ef24445-64c7-43fa-9ef6-653cfffabee9" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="89dbdc25-432c-4243-8a52-5665d55dea45" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>JJCheckList</DisplayName>
+    <DisplayName>TaskOrganizerX</DisplayName>
     <PublisherDisplayName>JeyJr</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -32,11 +32,10 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="UWP_JJCheckList.App">
       <uap:VisualElements
-        DisplayName="JJCheckList"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="Desfrute de uma maneira simples, prática e eficaz de organizar suas tarefas diárias com nosso aplicativo. Nosso checklist intuitivo permite que você mantenha o controle de suas responsabilidades de forma fácil e eficiente. Simplifique sua rotina diária e aumente sua produtividade com nossa ferramenta acessível e de fácil utilização."
-        BackgroundColor="transparent">
+        BackgroundColor="transparent" DisplayName="Task Organize X">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
         <uap:InitialRotationPreference>
@@ -44,8 +43,4 @@
       </uap:VisualElements>
     </Application>
   </Applications>
-
-  <Capabilities>
-    <Capability Name="internetClient" />
-  </Capabilities>
 </Package>

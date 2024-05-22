@@ -7,7 +7,7 @@ using UWP_JJCheckList.Models.Entidades;
 
 namespace UWP_JJCheckList.Models.Interfaces
 {
-    public interface ICLParametroRepositorio
+    public interface ICLParametroRepository
     {
         int Inserir(CLParametro cLParametro);
         bool Atualizar(CLParametro cLParametro);

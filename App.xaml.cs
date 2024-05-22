@@ -111,10 +111,10 @@ namespace UWP_JJCheckList
         {
             Container = new Container();
 
-            Container.Register<ICLParametroRepositorio, CLParametroRepositorio>();
-            Container.Register<ICLTaskContentRepositorio, CLTaskContentRepositorio>();
-            Container.Register<ICLTaskGroupRepositorio, CLTaskGroupRepositorio>();
-            Container.Register<ICLTaskColorRepositorio, CLTaskColorRepositorio>();
+            Container.Register<ICLParametroRepository, CLParametroRepository>();
+            Container.Register<ICLTaskContentRepository, CLTaskContentRepository>();
+            Container.Register<ICLTaskGroupRepository, CLTaskGroupRepository>();
+            Container.Register<ICLTaskColorRepository, CLTaskColorRepository>();
 
             Container.Verify();
         }
@@ -123,7 +123,7 @@ namespace UWP_JJCheckList
             try
             {
                 string dbPath = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "DBCheckList.db");
-                    DBConnection = new SQLiteConnection(dbPath);
+                DBConnection = new SQLiteConnection(dbPath);
 
                 DBConnection.BeginTransaction();
                 //Tabelas
@@ -179,10 +179,12 @@ namespace UWP_JJCheckList
                 DBConnection.Commit();
 
                 // CORES INICIAIS
-                var cLTaskColor = App.Container.GetInstance<ICLTaskColorRepositorio>();
-                cLTaskColor.InserirCoresPadrao();
+                var cLTaskColorRepository = App.Container.GetInstance<ICLTaskColorRepository>();
+                cLTaskColorRepository.InserirCoresPadrao();
 
-                var cores = DBConnection.Table<CLTaskColor>();
+                // GRUPO PADRÃO DO SISTEMA
+                var clTaskGroupRepository = App.Container.GetInstance<ICLTaskGroupRepository>();
+                clTaskGroupRepository.InserirGrupoPadrao();
             }
             catch (Exception ex)
             {

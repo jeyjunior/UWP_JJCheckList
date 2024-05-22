@@ -1,21 +1,26 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UWP_JJCheckList.Models.Entidades;
 using UWP_JJCheckList.Models.Interfaces;
+using UWP_JJCheckList.Views.Task;
+using Windows.UI.Xaml.Media;
 
 namespace UWP_JJCheckList.Models.Repositorios
 {
-    public class CLTaskColorRepositorio : ICLTaskColorRepositorio
+    public class CLTaskColorRepository : ICLTaskColorRepository
     {
         public void InserirCoresPadrao()
         {
             var clTaskColorCollection = new List<CLTaskColor>()
             {
-                new CLTaskColor() { ColorName = "Preto", ColorHex = "#000000" },
+                new CLTaskColor() { ColorName = "Transparente", ColorHex = "#292929" },
                 new CLTaskColor() { ColorName = "Branco", ColorHex = "#ffffff" },
+                new CLTaskColor() { ColorName = "Preto", ColorHex = "#000000" },
                 new CLTaskColor() { ColorName = "Vermelho", ColorHex = "#ff0000" },
                 new CLTaskColor() { ColorName = "Verde", ColorHex = "#00ff00" },
                 new CLTaskColor() { ColorName = "Azul", ColorHex = "#0000ff" },
@@ -44,5 +49,28 @@ namespace UWP_JJCheckList.Models.Repositorios
             }
         }
 
+        public SolidColorBrush ObterCorGrupo(CLTaskContent clTaskContent)
+        {
+            try
+            {
+                var clTaskGrupo = App.DBConnection.Table<CLTaskGroup>().FirstOrDefault(grupo => grupo.PK_CLTaskGroup == clTaskContent.FK_CLTaskGroup); ;
+                var clTaskColor = App.DBConnection.Table<CLTaskColor>().FirstOrDefault(color => color.PK_CLTaskColor == clTaskGrupo.FK_CLTaskColor);
+
+                if (clTaskColor != null)
+                {
+                    Windows.UI.Color cor = Windows.UI.Color.FromArgb(255,
+                        Convert.ToByte(clTaskColor.ColorHex.Substring(1, 2), 16),
+                        Convert.ToByte(clTaskColor.ColorHex.Substring(3, 2), 16),
+                        Convert.ToByte(clTaskColor.ColorHex.Substring(5, 2), 16));
+
+                    return new SolidColorBrush(cor);
+                }
+            }
+            catch (SQLiteException ex)
+            {
+
+            }
+            return null; 
+        }
     }
 }

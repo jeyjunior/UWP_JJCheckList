@@ -8,7 +8,7 @@ using UWP_JJCheckList.Models.Entidades;
 
 namespace UWP_JJCheckList.Models.Interfaces
 {
-    public interface ICLTaskContentRepositorio
+    public interface ICLTaskContentRepository
     {
         int Inserir(CLTaskContent taskContent);
         Task<int> InserirAsync(CLTaskContent taskContent);

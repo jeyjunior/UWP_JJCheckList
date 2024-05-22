@@ -10,9 +10,11 @@
 
     <Grid RowSpacing="0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="70"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="Auto"/>
-            <!-- Row for buttons -->
         </Grid.RowDefinitions>
 
         <!-- Titulo da tarefa -->
@@ -32,9 +34,24 @@
                 MaxLength="120"/>
         </Grid>
 
+        <!-- Grupo -->
+        <TextBlock 
+            Grid.Row="1" 
+            x:Name="txbGroup" 
+            Text="Grupo" 
+            Foreground="#999999"
+            VerticalAlignment="Bottom"/>
+        
+        <ComboBox
+            x:Name="cboTaskGroup"
+            Grid.Row="2"
+            Height="45"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"/>
+
+
         <!-- Buttons -->
-        <!-- Buttons with AccessKeys -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
             <Button Content="Adicionar" x:Name="btnAdicionar" Click="btnAdicionar_Click" Margin="0,0,10,0" AccessKey="A" ToolTipService.ToolTip="ALT + A"/>
             <Button Content="Cancelar" x:Name="btnCancelar" Click="btnCancelar_Click" AccessKey="C" ToolTipService.ToolTip="ALT + C"/>
         </StackPanel>

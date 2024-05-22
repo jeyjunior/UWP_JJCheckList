@@ -10,7 +10,7 @@ using UWP_JJCheckList.Views.Task;
 
 namespace UWP_JJCheckList.Models.Repositorios
 {
-    public class CLTaskContentRepositorio : ICLTaskContentRepositorio
+    public class CLTaskContentRepository : ICLTaskContentRepository
     {
         public int Inserir(CLTaskContent taskContent)
         {
