@@ -5,19 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using SQLite;
-using UWP_JJCheckList.Models.Interfaces;
 
 namespace UWP_JJCheckList.Models.Entidades
 {
-    public class CLTaskGroup 
+    public class TarefaCor
     {
         [PrimaryKey]
         [AutoIncrement]
-        public int PK_CLTaskGroup { get; set; }
+        public int PK_TarefaCor { get; set; }
         [NotNull]
-        public string GroupName { get; set; }
+        public string Nome { get; set; }
         [NotNull]
-        public int FK_CLTaskColor { get; set; }
+        public string CorHex { get; set; }
+        
         [Ignore]
         public ValidationResult ValidationResult { get; set; }
         [Ignore]
@@ -29,17 +29,17 @@ namespace UWP_JJCheckList.Models.Entidades
             else if (ValidationResult.ErrorMessage.Count() == 0)
                 return true;
 
-            if (PK_CLTaskGroup <= 0)
+            if (PK_TarefaCor <= 0)
             {
-                ValidationResult = new ValidationResult("O ID do grupo é obrigatório.");
+                ValidationResult = new ValidationResult("O ID da cor é obrigatório.");
                 return false;
             }
-            else if (string.IsNullOrEmpty(GroupName))
+            else if (string.IsNullOrEmpty(Nome))
             {
-                ValidationResult = new ValidationResult("O nome do grupo é obrigatório.");
+                ValidationResult = new ValidationResult("O nome da cor é obrigatório.");
                 return false;
             }
-            else if (FK_CLTaskColor <= 0)
+            else if (string.IsNullOrEmpty(CorHex))
             {
                 ValidationResult = new ValidationResult("O código da cor é obrigatório.");
                 return false;

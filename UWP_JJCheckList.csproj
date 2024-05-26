@@ -129,23 +129,24 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Helpers\Aviso.cs" />
+    <Compile Include="Controls\Helpers\Enums.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\Entidades\CLParametro.cs" />
-    <Compile Include="Models\Entidades\CLTaskColor.cs" />
-    <Compile Include="Models\Entidades\CLTaskContent.cs" />
-    <Compile Include="Models\Entidades\CLTaskGroup.cs" />
-    <Compile Include="Models\Interfaces\ICLParametroRepository.cs" />
-    <Compile Include="Models\Interfaces\ICLTaskColorRepository.cs" />
-    <Compile Include="Models\Interfaces\ICLTaskContentRepository.cs" />
-    <Compile Include="Models\Interfaces\ICLTaskGroupRepository.cs" />
-    <Compile Include="Models\Interfaces\IMainPageManipularComponentes.cs" />
-    <Compile Include="Models\Interfaces\ITaskContentManipularComponentes.cs" />
-    <Compile Include="Models\Repositorios\CLParametroRepository.cs" />
-    <Compile Include="Models\Repositorios\CLTaskColorRepository.cs" />
-    <Compile Include="Models\Repositorios\CLTaskContentRepository.cs" />
-    <Compile Include="Models\Repositorios\CLTaskGroupRepository.cs" />
+    <Compile Include="Models\Entidades\Parametro.cs" />
+    <Compile Include="Models\Entidades\TarefaCor.cs" />
+    <Compile Include="Models\Entidades\Tarefa.cs" />
+    <Compile Include="Models\Entidades\TarefaGrupo.cs" />
+    <Compile Include="Models\Interfaces\IParametroRepository.cs" />
+    <Compile Include="Models\Interfaces\ITarefaCorRepository.cs" />
+    <Compile Include="Models\Interfaces\ITarefaRepository.cs" />
+    <Compile Include="Models\Interfaces\ITarefaGrupoRepository.cs" />
+    <Compile Include="Models\Interfaces\Views\IMainPageManipularComponentes.cs" />
+    <Compile Include="Models\Interfaces\Views\ITaskContent.cs" />
+    <Compile Include="Models\Repositorios\ParametroRepository.cs" />
+    <Compile Include="Models\Repositorios\TarefaCorRepository.cs" />
+    <Compile Include="Models\Repositorios\TarefaRepository.cs" />
+    <Compile Include="Models\Repositorios\TarefaGrupoRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Task\TaskContent.xaml.cs">
       <DependentUpon>TaskContent.xaml</DependentUpon>

@@ -9,16 +9,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace UWP_JJCheckList.Models.Repositorios
 {
-    public class CLParametroRepository : ICLParametroRepository
+    public class ParametroRepository : IParametroRepository
     {
-        public int Inserir(CLParametro cLParametro)
+        public int Inserir(Parametro cLParametro)
         {
             try
             {
                 if (cLParametro == null)
                     return -1;
 
-                if (string.IsNullOrEmpty(cLParametro.Parametro))
+                if (string.IsNullOrEmpty(cLParametro.Nome))
                 {
                     cLParametro.ValidationResult = new ValidationResult("Parâmetro inválido.");
                     return -1;
@@ -56,8 +56,8 @@ namespace UWP_JJCheckList.Models.Repositorios
 
 
 
-                var cLParametroRegistrado = App.DBConnection.Table<CLParametro>()
-                    .Where(i => i.Parametro == cLParametro.Parametro && i.Grupo == cLParametro.Grupo && i.Valor == cLParametro.Valor)
+                var cLParametroRegistrado = App.DBConnection.Table<Parametro>()
+                    .Where(i => i.Nome == cLParametro.Nome && i.Grupo == cLParametro.Grupo && i.Valor == cLParametro.Valor)
                     .FirstOrDefault();
 
                 if (cLParametroRegistrado == null)
@@ -77,7 +77,7 @@ namespace UWP_JJCheckList.Models.Repositorios
             return -1;
         }
 
-        public bool Atualizar(CLParametro cLParametro)
+        public bool Atualizar(Parametro cLParametro)
         {
             try
             {
@@ -112,11 +112,11 @@ namespace UWP_JJCheckList.Models.Repositorios
             return true;
         }
 
-        public CLParametro Obter(Parametros parametro)
+        public Parametro Obter(Parametros parametro)
         {
-            var clParametro = new CLParametro()
+            var clParametro = new Parametro()
             {
-                Parametro = Enum.GetName(typeof(Parametros), parametro),
+                Nome = Enum.GetName(typeof(Parametros), parametro),
                 ValidationResult = null,
             };
 
@@ -131,11 +131,11 @@ namespace UWP_JJCheckList.Models.Repositorios
             return resultado;
         }
 
-        public CLParametro Obter(string parametro)
+        public Parametro Obter(string parametro)
         {
-            var clParametro = new CLParametro()
+            var clParametro = new Parametro()
             {
-                Parametro = parametro,
+                Nome = parametro,
                 ValidationResult = null,
             };
 
@@ -150,14 +150,14 @@ namespace UWP_JJCheckList.Models.Repositorios
             return resultado;
         }
 
-        public CLParametro Obter(CLParametro parametro)
+        public Parametro Obter(Parametro parametro)
         {
             try
             {
 
                 if (parametro == null)
                 {
-                    parametro = new CLParametro
+                    parametro = new Parametro
                     {
                         ValidationResult = new ValidationResult("É necessário informar alguma parâmetro."),
                     };
@@ -165,26 +165,26 @@ namespace UWP_JJCheckList.Models.Repositorios
                     return parametro;
                 }
 
-                if (parametro.PK_Parametro <= 0 && string.IsNullOrEmpty(parametro.Parametro))
+                if (parametro.PK_Parametro <= 0 && string.IsNullOrEmpty(parametro.Nome))
                 {
                     parametro.ValidationResult = new ValidationResult("É necessário inserir algum ID ou Parametro.");
                     return parametro;
                 }
 
-                CLParametro cLParametroResultado = null;
+                Parametro cLParametroResultado = null;
 
                 if (parametro.PK_Parametro > 0)
                 {
                     cLParametroResultado = App.DBConnection
-                    .Table<CLParametro>()
+                    .Table<Parametro>()
                     .Where(x => x.PK_Parametro == parametro.PK_Parametro)
                     .FirstOrDefault();
                 }
-                else if (parametro.Parametro.Length > 0)
+                else if (parametro.Nome.Length > 0)
                 {
                     cLParametroResultado = App.DBConnection
-                    .Table<CLParametro>()
-                    .Where(x => x.Parametro == parametro.Parametro)
+                    .Table<Parametro>()
+                    .Where(x => x.Nome == parametro.Nome)
                     .FirstOrDefault();
                 }
 
@@ -198,7 +198,7 @@ namespace UWP_JJCheckList.Models.Repositorios
             }
             catch (Exception ex)
             {
-                parametro = new CLParametro
+                parametro = new Parametro
                 {
                     ValidationResult = new ValidationResult(ex.Message),
                 };

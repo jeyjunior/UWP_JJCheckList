@@ -9,13 +9,13 @@ using UWP_JJCheckList.Models.Interfaces;
 
 namespace UWP_JJCheckList.Models.Repositorios
 {
-    public class CLTaskGroupRepository : ICLTaskGroupRepository
+    public class TarefaGrupoRepository : ITarefaGrupoRepository
     {
         public void InserirGrupoPadrao()
         {
-            var clTaskGroup = new CLTaskGroup() { GroupName = "Tarefas Gerais", FK_CLTaskColor = 1 };
-            var clTaskGroup2 = new CLTaskGroup() { GroupName = "Teste 1", FK_CLTaskColor = 3 };
-            var clTaskGroup3 = new CLTaskGroup() { GroupName = "Teste 2", FK_CLTaskColor = 5 };
+            var clTaskGroup = new TarefaGrupo() { Nome = "Tarefas Gerais", FK_TarefaCor = 1 };
+            var clTaskGroup2 = new TarefaGrupo() { Nome = "Teste 1", FK_TarefaCor = 3 };
+            var clTaskGroup3 = new TarefaGrupo() { Nome = "Teste 2", FK_TarefaCor = 5 };
 
             try
             {
@@ -32,13 +32,13 @@ namespace UWP_JJCheckList.Models.Repositorios
             }
         }
 
-        public IEnumerable<CLTaskGroup> ObterLista()
+        public IEnumerable<TarefaGrupo> ObterLista()
         {
-            var clTaskGroupCollection = new List<CLTaskGroup>();
+            var clTaskGroupCollection = new List<TarefaGrupo>();
             
             try
             {
-                clTaskGroupCollection = App.DBConnection.Table<CLTaskGroup>().ToList();
+                clTaskGroupCollection = App.DBConnection.Table<TarefaGrupo>().ToList();
                 return clTaskGroupCollection;
             }
             catch

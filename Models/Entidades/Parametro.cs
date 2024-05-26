@@ -4,7 +4,7 @@ using SQLite;
 
 namespace UWP_JJCheckList.Models.Entidades
 {
-    public class CLParametro
+    public class Parametro
     {
         [PrimaryKey]
         [AutoIncrement]
@@ -12,7 +12,7 @@ namespace UWP_JJCheckList.Models.Entidades
         [NotNull]
         public string Grupo { get; set; }
         [NotNull]
-        public string Parametro { get; set; }
+        public string Nome { get; set; }
         [NotNull]
         public string Valor { get; set; }
         [Ignore]

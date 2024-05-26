@@ -11,7 +11,7 @@ namespace UWP_JJCheckList.Models.Interfaces
 {
     public interface IMainPageManipularComponentes
     {
-        void AddNovoItem(CLTaskContent taskContent);
+        void AddNovoItem(Tarefa taskContent);
         void DeletarItem(TaskContent taskContent);
     }
 }

@@ -7,9 +7,9 @@ using UWP_JJCheckList.Models.Entidades;
 
 namespace UWP_JJCheckList.Models.Interfaces
 {
-    public interface ICLTaskGroupRepository
+    public interface ITarefaGrupoRepository
     {
         void InserirGrupoPadrao();
-        IEnumerable<CLTaskGroup> ObterLista();
+        IEnumerable<TarefaGrupo> ObterLista();
     }
 }

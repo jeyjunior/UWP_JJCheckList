@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.ServiceModel.Channels;
+using System.Threading.Tasks;
 using UWP_JJCheckList.Controls;
 using UWP_JJCheckList.Controls.Helpers;
 using UWP_JJCheckList.Models.Entidades;
@@ -25,35 +26,39 @@ using Windows.UI.Xaml.Navigation;
 
 namespace UWP_JJCheckList.Views.Task
 {
-    public sealed partial class TaskContent : UserControl, ITaskContentManipularComponentes
+    public sealed partial class TaskContent : UserControl, ITaskContent
     {
         #region Interfaces
-        private readonly ICLTaskContentRepository cLTaskContentRepositorio;
-        private readonly ICLTaskColorRepository cLTaskColorRepositorio;
+        private readonly ITarefaCorRepository tarefaCorRepositorio;
         #endregion
 
         #region Propriedades
         private IMainPageManipularComponentes mainPageManipularComponentes;
-        private CLTaskContent clTaskContent { get; set; }
+        private Tarefa tarefa { get; set; }
         private bool abrirNotepad = false;
         #endregion
 
         #region Método Construtor
-        public TaskContent(CLTaskContent clTaskContent, IMainPageManipularComponentes mainPageManipularComponentes)
+        public TaskContent(Tarefa tarefa, IMainPageManipularComponentes mainPageManipularComponentes)
         {
             this.InitializeComponent();
 
-            this.clTaskContent = clTaskContent;
+            this.tarefa = tarefa;
             this.mainPageManipularComponentes = mainPageManipularComponentes;
 
-            cLTaskContentRepositorio = App.Container.GetInstance<ICLTaskContentRepository>();
-            cLTaskColorRepositorio = App.Container.GetInstance<ICLTaskColorRepository>();
-
-            this.tgbTarefa.IsChecked = clTaskContent.Checked;
-            this.txtTarefa.Text = clTaskContent.Tarefa;
-            this.txtNotepad.Text = clTaskContent.Notepad;
+            tarefaCorRepositorio = App.Container.GetInstance<ITarefaCorRepository>();
+            AtualizarInterface();
         }
         #endregion
+
+        private void AtualizarInterface()
+        {
+            this.tgbTarefa.IsChecked = tarefa.Concluido;
+            this.txtTarefa.Text = tarefa.Descricao;
+            this.txtNotepad.Text = tarefa.BlocoDeNotas;
+            
+            // Cor e grupo
+        }
 
         #region Eventos
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -63,15 +68,15 @@ namespace UWP_JJCheckList.Views.Task
         }
         private void txtTarefa_LostFocus(object sender, RoutedEventArgs e)
         {
-            AtualizarInformacoesBase();
+            AtualizarInformacoesBase(TipoOperacao.Atualizar);
         }
         private void tgbTarefa_Checked(object sender, RoutedEventArgs e)
         {
-            AtualizarInformacoesBase();
+            AtualizarInformacoesBase(TipoOperacao.Atualizar);
         }
         private void tgbTarefa_Unchecked(object sender, RoutedEventArgs e)
         {
-            AtualizarInformacoesBase();
+            AtualizarInformacoesBase(TipoOperacao.Atualizar);
         }
         private void btnDeletar_Click(object sender, RoutedEventArgs e)
         {
@@ -85,7 +90,7 @@ namespace UWP_JJCheckList.Views.Task
         {
             if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Tab)
             {
-                AtualizarInformacoesBase();
+                AtualizarInformacoesBase(TipoOperacao.Atualizar);
             }
         }
         private void btnNotepad_Click(object sender, RoutedEventArgs e)
@@ -128,73 +133,50 @@ namespace UWP_JJCheckList.Views.Task
         }
         private void txtNotepad_LostFocus(object sender, RoutedEventArgs e)
         {
-            AtualizarInformacoesBase();
+            AtualizarInformacoesBase(TipoOperacao.Atualizar);
         }
         #endregion
 
         #region Métodos
-        private void AtualizarInformacoesBase()
+        private void AtualizarInformacoesBase(TipoOperacao tipoOperacao)
         {
             try
             {
-                clTaskContent.Tarefa = this.txtTarefa.Text;
-                clTaskContent.Checked = (bool)this.tgbTarefa.IsChecked;
-                clTaskContent.Notepad = this.txtNotepad.Text;
-                cLTaskContentRepositorio.AtualizarAsync(clTaskContent);
+                tarefa.Descricao = this.txtTarefa.Text;
+                tarefa.Concluido = (bool)this.tgbTarefa.IsChecked;
+                tarefa.BlocoDeNotas = this.txtNotepad.Text;
+
+                App.AddOperacao(new TarefaOperacao { TipoOperacao = tipoOperacao, Tarefa = tarefa });
             }
             catch (Exception ex)
             {
                 Aviso.ContentDialog("Erro", ex.Message);
             }
         }
-        private void ExibirMensagemErro(string titulo, string conteudo)
-        {
-            var msg = new ContentDialog { Title = titulo, Content = conteudo, CloseButtonText = "OK" };
-            msg.ShowAsync();
-        }
         private void Deletar()
         {
-            cLTaskContentRepositorio.DeletarAsync(clTaskContent);
-
-            if (!clTaskContent.IsValid)
-            {
-                ExibirMensagemErro("Erro", clTaskContent.ValidationResult.ErrorMessage);
-                return;
-            }
-
+            AtualizarInformacoesBase(TipoOperacao.Deletar);
             mainPageManipularComponentes.DeletarItem(this);
         }
-
         private void CarregarCorDoGrupo()
         {
-            this.fColor.Background = cLTaskColorRepositorio.ObterCorGrupo(clTaskContent);
+            this.fColor.Background = tarefaCorRepositorio.ObterCorGrupo(tarefa);
         }
         #endregion
 
         #region Métodos Público
-        public void MarcarCheckBox()
+        public Tarefa ObterTask()
         {
-            this.tgbTarefa.IsChecked = true;
+            return this.tarefa;
         }
-        public void DesmarcarCheckBox()
+        public void AtualizarCheck(bool check)
         {
-            this.tgbTarefa.IsChecked = false;
+            this.tarefa.Concluido = check;
+            this.tgbTarefa.IsChecked = this.tarefa.Concluido;
         }
-        public void DeletarItem()
+        public void DeletarTarefa()
         {
             Deletar();
-        }
-        public bool ObterCheckBoxStatus()
-        {
-            return (bool)this.tgbTarefa.IsChecked;
-        }
-        public void DefinirIndice(int indice)
-        {
-            //this.clTaskContent.IndiceLista = indice;
-        }
-        public void AbrirNotepad()
-        {
-            btnNotepad_Click(null, null);
         }
         #endregion
     }

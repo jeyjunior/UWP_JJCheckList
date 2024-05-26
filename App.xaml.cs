@@ -1,11 +1,16 @@
 ﻿using SimpleInjector;
 using SQLite;
 using System;
+using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.ServiceModel.Channels;
+using System.Threading;
+using System.Threading.Tasks;
+using UWP_JJCheckList.Controls.Helpers;
 using UWP_JJCheckList.Models.Entidades;
 using UWP_JJCheckList.Models.Interfaces;
 using UWP_JJCheckList.Models.Repositorios;
@@ -31,10 +36,10 @@ namespace UWP_JJCheckList
     {
         public static Container Container { get; private set; }
         public static SQLiteConnection DBConnection { get; private set; }
-        /// <summary>
-        /// Inicializa o objeto singleton do aplicativo. Essa é a primeira linha do código criado
-        /// executado e, por isso, é o equivalente lógico de main() ou WinMain().
-        /// </summary>
+
+        private static readonly ConcurrentQueue<TarefaOperacao> tarefaOperacoes = new ConcurrentQueue<TarefaOperacao>();
+        private static bool ExecutandoOperacoes = false;
+
         public App()
         {
             this.InitializeComponent();
@@ -111,10 +116,10 @@ namespace UWP_JJCheckList
         {
             Container = new Container();
 
-            Container.Register<ICLParametroRepository, CLParametroRepository>();
-            Container.Register<ICLTaskContentRepository, CLTaskContentRepository>();
-            Container.Register<ICLTaskGroupRepository, CLTaskGroupRepository>();
-            Container.Register<ICLTaskColorRepository, CLTaskColorRepository>();
+            Container.Register<IParametroRepository, ParametroRepository>();
+            Container.Register<ITarefaRepository, TarefaRepository>();
+            Container.Register<ITarefaGrupoRepository, TarefaGrupoRepository>();
+            Container.Register<ITarefaCorRepository, TarefaCorRepository>();
 
             Container.Verify();
         }
@@ -127,10 +132,10 @@ namespace UWP_JJCheckList
 
                 DBConnection.BeginTransaction();
                 //Tabelas
-                DBConnection.CreateTable<CLParametro>();
-                DBConnection.CreateTable<CLTaskContent>();
-                DBConnection.CreateTable<CLTaskColor>();
-                DBConnection.CreateTable<CLTaskGroup>();
+                DBConnection.CreateTable<Parametro>();
+                DBConnection.CreateTable<Tarefa>();
+                DBConnection.CreateTable<TarefaCor>();
+                DBConnection.CreateTable<TarefaGrupo>();
 
                 DBConnection.Commit();
             }
@@ -153,22 +158,22 @@ namespace UWP_JJCheckList
             try
             {
                 string parametroTeste = Enum.GetName(typeof(Parametros), Parametros.TituloPrincipal);
-                var consultaTeste = DBConnection.Table<CLParametro>().Where(i => i.Parametro == parametroTeste).FirstOrDefault();
+                var consultaTeste = DBConnection.Table<Parametro>().Where(i => i.Nome == parametroTeste).FirstOrDefault();
 
                 if (consultaTeste != null)
                     return;
 
                 // Paramêtros iniciais
-                var pTituloPrincipal = new CLParametro
+                var pTituloPrincipal = new Parametro
                 {
                     Grupo = Enum.GetName(typeof(GrupoParametros), GrupoParametros.MainPage),
-                    Parametro = Enum.GetName(typeof(Parametros), Parametros.TituloPrincipal),
+                    Nome = Enum.GetName(typeof(Parametros), Parametros.TituloPrincipal),
                     Valor = "Título",
                 };
-                var pTituloPrincipalFontSize = new CLParametro
+                var pTituloPrincipalFontSize = new Parametro
                 {
                     Grupo = Enum.GetName(typeof(GrupoParametros), GrupoParametros.MainPage),
-                    Parametro = Enum.GetName(typeof(Parametros), Parametros.TituloPrincipalFontSize),
+                    Nome = Enum.GetName(typeof(Parametros), Parametros.TituloPrincipalFontSize),
                     Valor = "30",
                 };
 
@@ -179,11 +184,11 @@ namespace UWP_JJCheckList
                 DBConnection.Commit();
 
                 // CORES INICIAIS
-                var cLTaskColorRepository = App.Container.GetInstance<ICLTaskColorRepository>();
+                var cLTaskColorRepository = App.Container.GetInstance<Models.Interfaces.ITarefaCorRepository>();
                 cLTaskColorRepository.InserirCoresPadrao();
 
                 // GRUPO PADRÃO DO SISTEMA
-                var clTaskGroupRepository = App.Container.GetInstance<ICLTaskGroupRepository>();
+                var clTaskGroupRepository = App.Container.GetInstance<ITarefaGrupoRepository>();
                 clTaskGroupRepository.InserirGrupoPadrao();
             }
             catch (Exception ex)
@@ -192,6 +197,49 @@ namespace UWP_JJCheckList
                 var msg = new ContentDialog { Title = "Erro", Content = ex.Message, CloseButtonText = "OK" };
                 msg.ShowAsync();
             }
+        }
+
+        public static void AddOperacao(TarefaOperacao tarefaOperacao)
+        {
+            tarefaOperacoes.Enqueue(tarefaOperacao);
+
+            if (!ExecutandoOperacoes)
+            {
+                ExecutandoOperacoes = true;
+                Task.Run(() => ExecutarOperacoes());
+            }
+        }
+
+        private static async Task ExecutarOperacoes()
+        {
+            var tarefaRepository = App.Container.GetInstance<ITarefaRepository>();
+  
+            while (tarefaOperacoes.TryDequeue(out TarefaOperacao tarefaOperacao))
+            {
+                try
+                {
+                    switch (tarefaOperacao.TipoOperacao)
+                    {
+                        case Controls.Helpers.TipoOperacao.Adicionar:
+                            await tarefaRepository.InserirAsync(tarefaOperacao.Tarefa);
+                            break;
+                        case Controls.Helpers.TipoOperacao.Atualizar:
+                            await tarefaRepository.AtualizarAsync(tarefaOperacao.Tarefa);
+                            break;
+                        case Controls.Helpers.TipoOperacao.Deletar:
+                            await tarefaRepository.DeletarAsync(tarefaOperacao.Tarefa);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Aviso.Toast(ex.Message);
+                }
+            }
+
+            ExecutandoOperacoes = false;
         }
     }
 }

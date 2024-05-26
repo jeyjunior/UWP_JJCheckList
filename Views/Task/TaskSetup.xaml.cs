@@ -14,13 +14,13 @@ namespace UWP_JJCheckList.Assets
     public sealed partial class TaskSetup : ContentDialog
     {
         #region Interfaces
-        private readonly ICLTaskGroupRepository clTaskGroupRepository;
-        private readonly ICLTaskColorRepository cLTaskColorRepository;
+        private readonly ITarefaGrupoRepository tarefaGrupoRepository;
+        private readonly ITarefaCorRepository tarefaCorRepository;
         private IMainPageManipularComponentes mainPageManipularComponentes;
         #endregion
 
         #region Propriedades
-        private CLTaskContent taskContent;
+        private Tarefa tarefa;
         #endregion
 
         #region Método Construtor
@@ -30,10 +30,10 @@ namespace UWP_JJCheckList.Assets
 
             this.mainPageManipularComponentes = mainPageManipularComponentes;
 
-            clTaskGroupRepository = App.Container.GetInstance<ICLTaskGroupRepository>();
-            cLTaskColorRepository = App.Container.GetInstance<ICLTaskColorRepository>();
+            tarefaGrupoRepository = App.Container.GetInstance<ITarefaGrupoRepository>();
+            tarefaCorRepository = App.Container.GetInstance<ITarefaCorRepository>();
 
-            taskContent = new CLTaskContent();
+            tarefa = new Tarefa();
 
             CarregarDropDowns();
             Limpar();
@@ -69,12 +69,11 @@ namespace UWP_JJCheckList.Assets
         {
             CarregarGrupo();
         }
-
         private void CarregarGrupo()
         {
             try
             {
-                var clTaskGroupCollection = clTaskGroupRepository.ObterLista();
+                var clTaskGroupCollection = tarefaGrupoRepository.ObterLista();
 
                 if(clTaskGroupCollection == null)
                 {
@@ -91,20 +90,20 @@ namespace UWP_JJCheckList.Assets
                 foreach (var item in clTaskGroupCollection)
                     this.cboTaskGroup.Items.Add(item);
 
-                this.cboTaskGroup.DisplayMemberPath = "GroupName";
-                this.cboTaskGroup.SelectedValuePath = "PK_CLTaskGroup";
+                this.cboTaskGroup.DisplayMemberPath = "Nome";
+                this.cboTaskGroup.SelectedValuePath = "PK_TarefaGrupo";
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                throw;
+                Aviso.Toast(ex.Message);
             }
         }
         private void Limpar()
         {
             this.txtTarefa.Text = "";
 
-            taskContent.Tarefa = "";
-            taskContent.Checked = false;
+            tarefa.Descricao = "";
+            tarefa.Concluido = false;
             this.btnAdicionar.Visibility = Visibility.Collapsed;
             this.cboTaskGroup.SelectedIndex = 0;
             this.Hide();
@@ -123,11 +122,11 @@ namespace UWP_JJCheckList.Assets
                     goto Sair;
                 }
 
-                taskContent.Tarefa = this.txtTarefa.Text;
-                taskContent.Checked = false;
-                taskContent.Notepad = "";
-                taskContent.FK_CLTaskGroup = (int)cboTaskGroup.SelectedValue;
-                this.mainPageManipularComponentes.AddNovoItem(taskContent);
+                tarefa.Descricao = this.txtTarefa.Text;
+                tarefa.Concluido = false;
+                tarefa.BlocoDeNotas = "";
+                tarefa.FK_TarefaGrupo = (int)cboTaskGroup.SelectedValue;
+                this.mainPageManipularComponentes.AddNovoItem(tarefa);
                 salvarTarefa = true;
                 Limpar();
 
@@ -135,7 +134,7 @@ namespace UWP_JJCheckList.Assets
             }
             catch (System.Exception ex)
             {
-                Aviso.ContentDialog("Erro", ex.Message);
+                Aviso.Toast(ex.Message);
             }
             finally
             {
