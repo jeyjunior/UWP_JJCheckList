@@ -84,7 +84,7 @@
             <TextBox
                 x:Name="txtTarefa"
                 Grid.Column="4" 
-                Text="adsasdasdas asd asd sa" 
+                Text="" 
                 VerticalAlignment="Center"
                 TextAlignment="Left"
                 Margin="12,0,12,0"

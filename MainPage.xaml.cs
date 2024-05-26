@@ -23,7 +23,8 @@ using UWP_JJCheckList.Models.Repositorios;
 using UWP_JJCheckList.Views.Task;
 using Windows.UI.ViewManagement;
 using Windows.ApplicationModel;
- 
+using UWP_JJCheckList.Controls.Helpers;
+
 namespace UWP_JJCheckList
 {
     public sealed partial class MainPage : Page, IMainPageManipularComponentes
@@ -264,7 +265,7 @@ namespace UWP_JJCheckList
 
                 if (!pTituloPrincipal.IsValid)
                 {
-                    ExibirMensagemErro("Erro", pTituloPrincipal.ValidationResult.ErrorMessage);
+                    Aviso.Toast(pTituloPrincipal.ValidationResult.ErrorMessage);
                     return;
                 }
 
@@ -273,7 +274,7 @@ namespace UWP_JJCheckList
 
                 if (!pTituloPrincipalFontSize.IsValid)
                 {
-                    ExibirMensagemErro("Erro", pTituloPrincipal.ValidationResult.ErrorMessage);
+                    Aviso.Toast(pTituloPrincipal.ValidationResult.ErrorMessage);
                     return;
                 }
 
@@ -282,7 +283,7 @@ namespace UWP_JJCheckList
             }
             catch (Exception ex)
             {
-                ExibirMensagemErro("Erro", ex.Message);
+                Aviso.Toast(ex.Message);
             }
         }
         private void CarregarTasks()
@@ -356,11 +357,6 @@ namespace UWP_JJCheckList
                 msg.ShowAsync();
             }
         }
-        private void ExibirMensagemErro(string titulo, string conteudo)
-        {
-            var msg = new ContentDialog { Title = titulo, Content = conteudo, CloseButtonText = "OK" };
-            msg.ShowAsync();
-        }
         #endregion
 
         #region Métodos Público
@@ -372,12 +368,12 @@ namespace UWP_JJCheckList
 
             if (!clTaskContent.IsValid)
             {
-                ExibirMensagemErro("Erro", clTaskContent.ValidationResult.ErrorMessage);
+                Aviso.Toast(clTaskContent.ValidationResult.ErrorMessage);
                 return;
             }
             else if (taskResult.Result <= 0)
             {
-                ExibirMensagemErro("Erro", "Não foi possível registrar tarefa.");
+                Aviso.Toast("Não foi possível registrar tarefa.");
                 return;
             }
 

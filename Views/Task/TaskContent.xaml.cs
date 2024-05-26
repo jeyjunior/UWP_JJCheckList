@@ -36,6 +36,7 @@ namespace UWP_JJCheckList.Views.Task
         private IMainPageManipularComponentes mainPageManipularComponentes;
         private Tarefa tarefa { get; set; }
         private bool abrirNotepad = false;
+        private bool AtualizarBase = false;
         #endregion
 
         #region Método Construtor
@@ -56,7 +57,8 @@ namespace UWP_JJCheckList.Views.Task
             this.tgbTarefa.IsChecked = tarefa.Concluido;
             this.txtTarefa.Text = tarefa.Descricao;
             this.txtNotepad.Text = tarefa.BlocoDeNotas;
-            
+
+            AtualizarBase = true;
             // Cor e grupo
         }
 
@@ -142,11 +144,14 @@ namespace UWP_JJCheckList.Views.Task
         {
             try
             {
-                tarefa.Descricao = this.txtTarefa.Text;
-                tarefa.Concluido = (bool)this.tgbTarefa.IsChecked;
-                tarefa.BlocoDeNotas = this.txtNotepad.Text;
+                if (AtualizarBase)
+                {
+                    tarefa.Descricao = this.txtTarefa.Text;
+                    tarefa.Concluido = (bool)this.tgbTarefa.IsChecked;
+                    tarefa.BlocoDeNotas = this.txtNotepad.Text;
 
-                App.AddOperacao(new TarefaOperacao { TipoOperacao = tipoOperacao, Tarefa = tarefa });
+                    App.AddOperacao(new TarefaOperacao { TipoOperacao = tipoOperacao, Tarefa = tarefa });
+                }
             }
             catch (Exception ex)
             {
@@ -173,6 +178,8 @@ namespace UWP_JJCheckList.Views.Task
         {
             this.tarefa.Concluido = check;
             this.tgbTarefa.IsChecked = this.tarefa.Concluido;
+
+            AtualizarInterface();
         }
         public void DeletarTarefa()
         {
