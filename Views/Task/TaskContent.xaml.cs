@@ -53,15 +53,6 @@ namespace UWP_JJCheckList.Views.Task
         }
         #endregion
 
-        private void AtualizarInterface()
-        {
-            this.tgbTarefa.IsChecked = tarefa.Concluido;
-            this.txtTarefa.Text = tarefa.Descricao;
-            this.txtNotepad.Text = tarefa.BlocoDeNotas;
-
-            AtualizarBase = true;
-            // Cor e grupo
-        }
 
         #region Eventos
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -141,6 +132,15 @@ namespace UWP_JJCheckList.Views.Task
         #endregion
 
         #region Métodos
+        private void AtualizarInterface()
+        {
+            this.tgbTarefa.IsChecked = tarefa.Concluido;
+            this.txtTarefa.Text = tarefa.Descricao;
+            this.txtNotepad.Text = tarefa.BlocoDeNotas;
+
+            AtualizarBase = true;
+            // Cor e grupo
+        }
         private void AtualizarInformacoesBase(TipoOperacao tipoOperacao)
         {
             try
