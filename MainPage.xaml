@@ -69,7 +69,7 @@
                 VerticalAlignment="Center" 
                 HorizontalAlignment="Stretch"/>
 
-            <ToggleButton 
+            <!--<ToggleButton 
                 Grid.Column="0" 
                 x:Name="chkAll"
                 Width="16" Height="16"
@@ -81,9 +81,9 @@
                 ToolTipService.ToolTip="Marcar/Desmarcar tudo (Ctrl + Shift + C)"
                 Checked="chkAll_Checked"
                 Unchecked="chkAll_Unchecked" BorderBrush="#FFB9B9B9">
-            </ToggleButton>
+            </ToggleButton>-->
 
-            <Button 
+            <!--<Button 
                 Grid.Column="3" 
                 x:Name="btnDeletarAll" 
                 Margin="0"
@@ -94,7 +94,7 @@
                 ToolTipService.ToolTip="Deletar tudo (CTRL + SHIFT + D)"
                 Click="btnDeletarAll_Click">
                 <Image Source="/Assets/Icons/24x/delete_white_fill.png"  Width="16" Height="16"/>
-            </Button>
+            </Button>-->
         </Grid>
 
         <!-- Conteúdo -->

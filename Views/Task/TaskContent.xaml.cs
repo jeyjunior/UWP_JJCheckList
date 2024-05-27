@@ -7,6 +7,7 @@ using System.ServiceModel.Channels;
 using System.Threading.Tasks;
 using UWP_JJCheckList.Controls;
 using UWP_JJCheckList.Controls.Helpers;
+using UWP_JJCheckList.Models;
 using UWP_JJCheckList.Models.Entidades;
 using UWP_JJCheckList.Models.Interfaces;
 using Windows.Foundation;
@@ -150,7 +151,7 @@ namespace UWP_JJCheckList.Views.Task
                     tarefa.Concluido = (bool)this.tgbTarefa.IsChecked;
                     tarefa.BlocoDeNotas = this.txtNotepad.Text;
 
-                    App.AddOperacao(new TarefaOperacao { TipoOperacao = tipoOperacao, Tarefa = tarefa });
+                    OperacaoService.AddOperacao(new TarefaOperacao { TipoOperacao = tipoOperacao, Tarefa = tarefa });
                 }
             }
             catch (Exception ex)

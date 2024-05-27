@@ -11,6 +11,7 @@ using System.ServiceModel.Channels;
 using System.Threading;
 using System.Threading.Tasks;
 using UWP_JJCheckList.Controls.Helpers;
+using UWP_JJCheckList.Models;
 using UWP_JJCheckList.Models.Entidades;
 using UWP_JJCheckList.Models.Interfaces;
 using UWP_JJCheckList.Models.Repositorios;
@@ -37,8 +38,8 @@ namespace UWP_JJCheckList
         public static Container Container { get; private set; }
         public static SQLiteConnection DBConnection { get; private set; }
 
-        private static readonly ConcurrentQueue<TarefaOperacao> tarefaOperacoes = new ConcurrentQueue<TarefaOperacao>();
-        private static bool ExecutandoOperacoes = false;
+        //private static readonly ConcurrentQueue<TarefaOperacao> tarefaOperacoes = new ConcurrentQueue<TarefaOperacao>();
+        //private static bool ExecutandoOperacoes = false;
 
         public App()
         {
@@ -106,10 +107,16 @@ namespace UWP_JJCheckList
         /// </summary>
         /// <param name="sender">A origem da solicitação de suspensão.</param>
         /// <param name="e">Detalhes sobre a solicitação de suspensão.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Salvar o estado do aplicativo e parar qualquer atividade em segundo plano
+
+            var task = OperacaoService.ProcessarOperacoesPendentes();
+            var delayTask = Task.Delay(10000); // Tempo máximo de espera, por exemplo, 10 segundos
+
+            await Task.WhenAny(task, delayTask);
+
             deferral.Complete();
         }
         private void InicializarRepositorios()
@@ -143,14 +150,7 @@ namespace UWP_JJCheckList
             {
                 DBConnection.Rollback();
 
-                var msg = new ContentDialog
-                {
-                    Title = "Erro",
-                    Content = ex.Message,
-                    CloseButtonText = "OK"
-                };
-
-                msg.ShowAsync();
+                Aviso.Toast(ex.Message);
             }
         }
         private void InicializarParametros()
@@ -194,52 +194,8 @@ namespace UWP_JJCheckList
             catch (Exception ex)
             {
                 DBConnection.Rollback();
-                var msg = new ContentDialog { Title = "Erro", Content = ex.Message, CloseButtonText = "OK" };
-                msg.ShowAsync();
+                Aviso.Toast(ex.Message);
             }
-        }
-
-        public static void AddOperacao(TarefaOperacao tarefaOperacao)
-        {
-            tarefaOperacoes.Enqueue(tarefaOperacao);
-
-            if (!ExecutandoOperacoes)
-            {
-                ExecutandoOperacoes = true;
-                Task.Run(() => ExecutarOperacoes());
-            }
-        }
-
-        private static async Task ExecutarOperacoes()
-        {
-            var tarefaRepository = App.Container.GetInstance<ITarefaRepository>();
-  
-            while (tarefaOperacoes.TryDequeue(out TarefaOperacao tarefaOperacao))
-            {
-                try
-                {
-                    switch (tarefaOperacao.TipoOperacao)
-                    {
-                        case Controls.Helpers.TipoOperacao.Adicionar:
-                            await tarefaRepository.InserirAsync(tarefaOperacao.Tarefa);
-                            break;
-                        case Controls.Helpers.TipoOperacao.Atualizar:
-                            await tarefaRepository.AtualizarAsync(tarefaOperacao.Tarefa);
-                            break;
-                        case Controls.Helpers.TipoOperacao.Deletar:
-                            await tarefaRepository.DeletarAsync(tarefaOperacao.Tarefa);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Aviso.Toast(ex.Message);
-                }
-            }
-
-            ExecutandoOperacoes = false;
         }
     }
 }

@@ -143,6 +143,7 @@
     <Compile Include="Models\Interfaces\ITarefaGrupoRepository.cs" />
     <Compile Include="Models\Interfaces\Views\IMainPageManipularComponentes.cs" />
     <Compile Include="Models\Interfaces\Views\ITaskContent.cs" />
+    <Compile Include="Models\OperacaoService.cs" />
     <Compile Include="Models\Repositorios\ParametroRepository.cs" />
     <Compile Include="Models\Repositorios\TarefaCorRepository.cs" />
     <Compile Include="Models\Repositorios\TarefaRepository.cs" />

@@ -90,6 +90,7 @@ namespace UWP_JJCheckList
                 SalvarTitulo();
             }
         }
+
         private void txbTitulo_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             this.txtTitulo.Visibility = Visibility.Visible;
@@ -98,11 +99,13 @@ namespace UWP_JJCheckList
             this.txtTitulo.Focus(FocusState.Programmatic);
             this.txtTitulo.SelectionStart = this.txtTitulo.Text.Length;
         }
+        
         private void txtTitulo_TextChanged(object sender, TextChangedEventArgs e)
         {
             this.txbTitulo.Text = this.txtTitulo.Text;
             pTituloPrincipal.Valor = this.txtTitulo.Text;
         }
+
         private void txtTitulo_LostFocus(object sender, RoutedEventArgs e)
         {
             this.txtTitulo.Visibility = Visibility.Collapsed;
@@ -110,88 +113,12 @@ namespace UWP_JJCheckList
 
             SalvarTitulo();
         }
+        
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             taskSetup.ShowAsync();
         }
-        private async void btnDeletarAll_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (this.listViewConteudo.Items.Count > 0)
-                {
-                    var dialog = new ContentDialog
-                    {
-                        Title = "Opções de exclusão",
-                        Content = "Selecione uma opção:",
-                        PrimaryButtonText = "Deletar tudo",
-                        SecondaryButtonText = "Deletar selecionados",
-                        CloseButtonText = "Cancelar"
-                    };
 
-                    var result = await dialog.ShowAsync();
-
-                    CoreWindow.GetForCurrentThread().PointerCursor = new CoreCursor(CoreCursorType.Wait, 1);
-
-                    foreach (ITaskContent item in listViewConteudo.Items)
-                    {
-                        if(result == ContentDialogResult.Primary)
-                        {
-                            item.DeletarTarefa();
-                        }
-                        else if(result == ContentDialogResult.Secondary)
-                        {
-                            if(item.ObterTask() is Tarefa tarefa && tarefa.Concluido == true)
-                            {
-                                item.DeletarTarefa();
-                            }
-                        }
-                    }
-                }
-            }
-            finally
-            {
-                CoreWindow.GetForCurrentThread().PointerCursor = new CoreCursor(CoreCursorType.Arrow, 1);
-            }
-        }
-        private void chkAll_Checked(object sender, RoutedEventArgs e)
-        {
-            CoreWindow.GetForCurrentThread().PointerCursor = new CoreCursor(CoreCursorType.Wait, 1);
-
-            try
-            {
-                if (this.listViewConteudo.Items.Count > 0)
-                {
-                    this.listViewConteudo.Items
-                        .OfType<ITaskContent>()
-                        .ToList()
-                        .ForEach(i => i.AtualizarCheck(true));
-                }
-            }
-            finally
-            {
-                CoreWindow.GetForCurrentThread().PointerCursor = new CoreCursor(CoreCursorType.Arrow, 1);
-            }
-        }
-        private void chkAll_Unchecked(object sender, RoutedEventArgs e)
-        {
-            CoreWindow.GetForCurrentThread().PointerCursor = new CoreCursor(CoreCursorType.Wait, 1);
-
-            try
-            {
-                if (this.listViewConteudo.Items.Count > 0)
-                {
-                    this.listViewConteudo.Items
-                        .OfType<ITaskContent>()
-                        .ToList()
-                        .ForEach(i => i.AtualizarCheck(false));
-                }
-            }
-            finally
-            {
-                CoreWindow.GetForCurrentThread().PointerCursor = new CoreCursor(CoreCursorType.Arrow, 1);
-            }
-        }
         private void pMainPage_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             bool ctrlPressed = (Window.Current.CoreWindow.GetKeyState(Windows.System.VirtualKey.Control) & CoreVirtualKeyStates.Down) == CoreVirtualKeyStates.Down;
@@ -206,31 +133,8 @@ namespace UWP_JJCheckList
                     e.Handled = true; 
                 }
             }
-
-            // Deletar Tudo
-            if (e.Key == Windows.System.VirtualKey.D && ctrlPressed && shiftPressed)
-            {
-                btnDeletarAll_Click(null, null);
-                e.Handled = true;
-            }
-
-            // Concluir Tudo
-            if (e.Key == Windows.System.VirtualKey.C && ctrlPressed && shiftPressed)
-            {
-                if (chkAll.IsChecked == true)
-                {
-                    chkAll.IsChecked = false;
-                    chkAll_Unchecked(null, null);
-                }
-                else
-                {
-                    chkAll.IsChecked = true;
-                    chkAll_Checked(null, null);
-                }
-
-                e.Handled = true;
-            }
         }
+
         private void listViewConteudo_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             //if (listViewConteudo.SelectedItem is TaskContent task && task != null)
@@ -286,6 +190,7 @@ namespace UWP_JJCheckList
                 Aviso.Toast(ex.Message);
             }
         }
+        
         private void CarregarTasks()
         {
             try
@@ -310,17 +215,17 @@ namespace UWP_JJCheckList
                 HabilitarComponentes();
                 AtualizarContador();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                Aviso.Toast(ex.Message);
             }
         }
+        
         private void HabilitarComponentes()
         {
             bool habilitar = (this.listViewConteudo.Items.Count > 0);
-            this.chkAll.Visibility = habilitar ? Visibility.Visible : Visibility.Collapsed;
-            this.btnDeletarAll.Visibility = habilitar ? Visibility.Visible : Visibility.Collapsed;
         }
+        
         private void AtualizarContador()
         {
             //this.txbQtd.Text = "";
@@ -337,6 +242,7 @@ namespace UWP_JJCheckList
             //    this.txbQtd.Text = $"{qtdMarcada}/{qtdTotal}";
             //}
         }
+        
         private void SalvarTitulo()
         {
             try
@@ -353,8 +259,7 @@ namespace UWP_JJCheckList
             }
             catch (Exception ex)
             {
-                var msg = new ContentDialog { Title = "Erro", Content = ex.Message, CloseButtonText = "OK" };
-                msg.ShowAsync();
+                Aviso.Toast(ex.Message);
             }
         }
         #endregion
@@ -385,6 +290,7 @@ namespace UWP_JJCheckList
             HabilitarComponentes();
             AtualizarContador();
         }
+        
         public void DeletarItem(TaskContent taskContent)
         {
             this.listViewConteudo.Items.Remove(taskContent);
